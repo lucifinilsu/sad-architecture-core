@@ -1,6 +1,7 @@
 package com.sad.architecture.api.componentization.internal;
 
 import com.sad.architecture.api.componentization.IComponentInterceptor;
+import com.sad.architecture.api.componentization.IComponentRequest;
 import com.sad.architecture.api.componentization.IComponentRequestInterceptorChain;
 import com.sad.architecture.api.componentization.IComponentResponse;
 import com.sad.architecture.api.componentization.IComponentResponseInterceptorChain;
@@ -26,6 +27,11 @@ public class NotifierImpl extends ComponentResponseImpl.ResponseApi<NotifierImpl
     }
     private int currIndex=0;
     private List<IComponentInterceptor> interceptors;
+    private IComponentRequest request;
+    public NotifierImpl request(IComponentRequest request){
+        this.request=request;
+        return this;
+    }
 
     @Override
     public void notifyCallCompeleted(IResult result) {
@@ -37,7 +43,7 @@ public class NotifierImpl extends ComponentResponseImpl.ResponseApi<NotifierImpl
                     .build();
             IComponentInterceptor interceptor=interceptors.get(this.currIndex);
             try {
-                IComponentResponseInterceptorChain componentResponseInterceptorChain=new ComponentResponseInterceptorChainImpl(interceptors,this.currIndex);
+                IComponentResponseInterceptorChain componentResponseInterceptorChain=new ComponentResponseInterceptorChainImpl(interceptors,this.currIndex,request);
                 componentResponseInterceptorChain.proceedResponse(componentResponse);
             }catch (Exception e){
                 e.printStackTrace();

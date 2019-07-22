@@ -17,15 +17,17 @@ public class ComponentResponseInterceptorChainImpl implements IComponentResponse
     private List<IComponentInterceptor> interceptors;
     private int currIndex=0;
     private IComponentResponse response;
-    public ComponentResponseInterceptorChainImpl(List<IComponentInterceptor> interceptors, int currIndex){
+    private IComponentRequest request;
+    public ComponentResponseInterceptorChainImpl(List<IComponentInterceptor> interceptors, int currIndex,IComponentRequest request){
         this.interceptors=interceptors;
         this.currIndex=currIndex;
+        this.request=request;
     }
     @Override
     public void proceedResponse(IComponentResponse response) throws Exception{
         this.response=response;
         IComponentInterceptor interceptor = interceptors.get(currIndex);
-        IComponentResponseInterceptorChain chain=new ComponentResponseInterceptorChainImpl(interceptors,currIndex-1);
+        IComponentResponseInterceptorChain chain=new ComponentResponseInterceptorChainImpl(interceptors,currIndex-1,request);
         interceptor.onResponseIntercepted(chain);
     }
 
@@ -35,4 +37,8 @@ public class ComponentResponseInterceptorChainImpl implements IComponentResponse
         return this.response;
     }
 
+    @Override
+    public IComponentRequest request() throws Exception {
+        return this.request;
+    }
 }
