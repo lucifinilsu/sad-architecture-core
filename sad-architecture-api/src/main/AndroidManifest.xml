@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sad.architecture.api" >
+    <application>
+        <service
+            android:name="com.sad.architecture.api.componentization.ipc.IPCMessageDispatcherService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="${applicationId}.ipc"/>
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

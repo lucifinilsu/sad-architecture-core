@@ -1,0 +1,70 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+        /*maven {url "https://dl.bintray.com/lucifinilsu/maven"}*/
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:latest.release'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:latest.release'
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+apply from: 'https://raw.githubusercontent.com/lucifinilsu/SmartAndroidDeveloper/master/sad-project-common.gradle'
+project.ext {
+    //basicApplicationId="com.sad.architecture.core.demo"
+    versionCode = 10
+    versionName = "1.0.0"
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+        /*maven {url "https://dl.bintray.com/lucifinilsu/maven"}*/
+        mavenCentral()
+    }
+    /*tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet') //忽略javadoc错误
+        //options.addStringOption('encoding', 'UTF-8')
+        options{
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            links "http://docs.oracle.com/javase/7/docs/api"
+        }
+    }*/
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+/*tasks.withType(Javadoc) {
+    *//*options{
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        links "https://docs.oracle.com/en/java/javase/12/docs/api/"
+    }*//*
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+}*/
+/*tasks.withType(Javadoc).all {
+    enabled = false
+}*/
+/*task javadoc(type: Javadoc) {
+    options.encoding = "utf-8"
+}*/
+//tasks.getByPath(":sad-architecture-api:javadoc").enabled = false
+
+//tasks.findByPath(":sad-architecture-api:androidJavadocs").enabled = false
+
+tasks.getByPath(":sad-architecture-api:javadoc").enabled = false

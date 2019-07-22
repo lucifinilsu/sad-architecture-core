@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'org.apache.commons:commons-lang3:latest.release'
+    api 'org.apache.commons:commons-collections4:latest.release'
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+//apply from: rootProject.file('uploadbintrayJceneterScript_Annotation.gradle')

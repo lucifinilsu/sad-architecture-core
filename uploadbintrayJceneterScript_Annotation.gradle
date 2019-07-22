@@ -1,0 +1,36 @@
+apply plugin: 'com.github.dcendents.android-maven'
+ext {
+    bintrayRepo = 'sad'
+    bintrayName = 'sad-architecture-annotation'
+
+    publishedGroupId = 'com.sad.architecture.annotation'
+    libraryName = 'sad-architecture-annotation'
+    artifact = 'sad-architecture-annotation'
+
+    libraryDescription = 'This is a library of annotations for SAD componentized development scenarios.'
+
+    siteUrl = 'https://github.com/lucifinilsu/SmartAndroidDeveloper'
+    gitUrl = 'https://github.com/lucifinilsu/SmartAndroidDeveloper'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'lucifinilsu'
+    developerName = 'lucifinilsu'
+    developerEmail = 'lucifinilsu@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+tasks.withType(Javadoc) {
+    options{
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        links "http://docs.oracle.com/javase/7/docs/api"
+    }
+    options.addStringOption('Xdoclint:none', '-quiet')
+
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

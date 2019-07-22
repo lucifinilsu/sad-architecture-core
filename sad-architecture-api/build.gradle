@@ -1,0 +1,62 @@
+apply plugin: 'com.android.library'
+/*apply plugin: 'com.github.dcendents.android-maven'*/
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+/*repositories.mavenInstaller{
+    pom {
+        project{
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+            }
+        }
+    }
+}*/
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+apply from: rootProject.file('uploadbintrayJceneterScript_Api.gradle')
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.sad.assistant:sad-datastore:0.2.2'
+    api 'com.android.support:support-annotations:'+ rootProject.ext.supportVersion
+    api 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
+    //compile project(':sad-architecture-annotation')
+    api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.0'
+    api "android.arch.lifecycle:common-java8:latest.release"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:latest.release'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:latest.release'
+}

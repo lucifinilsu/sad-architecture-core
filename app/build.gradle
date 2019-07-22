@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+android {
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+
+    }
+    signingConfigs {
+        signConfig {
+            keyAlias 'sad-architecture-core-demo'
+            keyPassword '123456'
+            storeFile file('sad-architecture-core-demo.jks')
+            storePassword '123456'
+        }
+    }
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.sad.architecture.core.demo"//basicApplicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signConfig
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    lintOptions {
+        //checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.sad.core.appgo:sad-appgo-api:latest.release'
+    implementation 'com.android.support.constraint:constraint-layout:latest.release'
+    api project(':sad-architecture-api')
+    annotationProcessor project(':sad-architecture-compiler')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:latest.release'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:latest.release'
+}

@@ -1,0 +1,1 @@
+include ':app', ':sad-architecture-api', ':sad-architecture-annotation', ':app2', ':sad-architecture-compiler', ':JavaDemo'
