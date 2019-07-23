@@ -21,18 +21,22 @@ public class ComponentRequestInterceptorChainImpl implements IComponentRequestIn
         this.interceptors=interceptors;
         this.currIndex=currIndex;
         this.notifier=notifier;
-        notifier.interceptorIndex(currIndex);
+        this.notifier.interceptorIndex(this.currIndex-1);
     }
 
     @Override
     public <T extends IComponentResponse> T proceedRequest(IComponentRequest request) throws Exception {
         this.request=request;
         IComponentInterceptor interceptor = interceptors.get(currIndex);
-        IComponentRequestInterceptorChain chain=new ComponentRequestInterceptorChainImpl(interceptors,currIndex+1,this.notifier);
+        ComponentRequestInterceptorChainImpl chain=new ComponentRequestInterceptorChainImpl(interceptors,currIndex+1,this.notifier);
+        chain.setRequest(request);
         T future = interceptor.OnRequestIntercepted(chain,notifier);
         return future;
     }
 
+    public void setRequest(IComponentRequest request) {
+        this.request = request;
+    }
 
     @Override
     public IComponentRequest request() throws Exception {

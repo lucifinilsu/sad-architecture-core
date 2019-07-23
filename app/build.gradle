@@ -67,7 +67,9 @@ dependencies {
     api 'com.sad.core.appgo:sad-appgo-api:latest.release'
     implementation 'com.android.support.constraint:constraint-layout:latest.release'
     api project(':sad-architecture-api')
-    annotationProcessor project(':sad-architecture-compiler')
+    annotationProcessor 'com.sad.architecture.compiler:sad-architecture-compiler:1.0.1'
+    //annotationProcessor project(':sad-architecture-compiler')
+    annotationProcessor 'com.google.auto.service:auto-service:latest.release'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:latest.release'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:latest.release'

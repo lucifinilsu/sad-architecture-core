@@ -1,8 +1,10 @@
 package com.sad.architecture.api.componentization.internal;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.sad.architecture.api.componentization.IComponent;
+import com.sad.basic.utils.assistant.LogUtils;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +36,7 @@ public class ComponentsStorage {
         Class appComponentClass= COMPONENTS.get(key);
 
         if (null==appComponentClass){
+            Log.e("ipc","所有组件--->"+COMPONENTS);
             throw new Exception("The annotation corresponding to the subscriberName '"+key+"' has the class of AppComponent that does not exist or is not registered");
         }
         return appComponentClass;

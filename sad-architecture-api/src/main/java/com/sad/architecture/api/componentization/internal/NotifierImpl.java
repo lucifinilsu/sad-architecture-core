@@ -43,7 +43,9 @@ public class NotifierImpl extends ComponentResponseImpl.ResponseApi<NotifierImpl
                     .build();
             IComponentInterceptor interceptor=interceptors.get(this.currIndex);
             try {
-                IComponentResponseInterceptorChain componentResponseInterceptorChain=new ComponentResponseInterceptorChainImpl(interceptors,this.currIndex,request);
+                ComponentResponseInterceptorChainImpl componentResponseInterceptorChain=new ComponentResponseInterceptorChainImpl(interceptors,this.currIndex,request);
+                componentResponseInterceptorChain.setRequest(request);
+                componentResponseInterceptorChain.setResponse(componentResponse);
                 componentResponseInterceptorChain.proceedResponse(componentResponse);
             }catch (Exception e){
                 e.printStackTrace();

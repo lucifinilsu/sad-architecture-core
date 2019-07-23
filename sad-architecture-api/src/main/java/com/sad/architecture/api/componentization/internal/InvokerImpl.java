@@ -372,7 +372,8 @@ public class InvokerImpl implements IInvoker {
                 .sourceName(appComponent.componentInfo().name())
                 .cancelable(isAcr?null:appComponent)
                 ;
-        IComponentRequestInterceptorChain requestChain=new ComponentRequestInterceptorChainImpl(interceptors,start,notifier);
+        ComponentRequestInterceptorChainImpl requestChain=new ComponentRequestInterceptorChainImpl(interceptors,start,notifier);
+        requestChain.setRequest(request);
         return requestChain.proceedRequest(request);
     }
 

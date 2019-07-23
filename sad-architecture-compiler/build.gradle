@@ -2,10 +2,10 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.auto.service:auto-service:latest.release'
+    api 'com.google.auto.service:auto-service:latest.release'
 
-//    annotationProcessor 'com.google.auto.service:auto-service:latest.release'
-//    compileOnly'com.google.auto.service:auto-service:latest.release'
+    //annotationProcessor 'com.google.auto.service:auto-service:latest.release'
+    //compileOnly'com.google.auto.service:auto-service:latest.release'
 
     api 'com.squareup:javapoet:latest.release'
     //api project(':sad-architecture-annotation')

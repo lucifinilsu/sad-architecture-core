@@ -23,11 +23,21 @@ public class ComponentResponseInterceptorChainImpl implements IComponentResponse
         this.currIndex=currIndex;
         this.request=request;
     }
+
+    public void setRequest(IComponentRequest request) {
+        this.request = request;
+    }
+
+    public void setResponse(IComponentResponse response) {
+        this.response = response;
+    }
+
     @Override
     public void proceedResponse(IComponentResponse response) throws Exception{
         this.response=response;
         IComponentInterceptor interceptor = interceptors.get(currIndex);
-        IComponentResponseInterceptorChain chain=new ComponentResponseInterceptorChainImpl(interceptors,currIndex-1,request);
+        ComponentResponseInterceptorChainImpl chain=new ComponentResponseInterceptorChainImpl(interceptors,currIndex-1,request);
+        chain.setResponse(response);
         interceptor.onResponseIntercepted(chain);
     }
 

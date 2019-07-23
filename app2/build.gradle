@@ -59,8 +59,9 @@ configurations.all {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':sad-architecture-api')
-    annotationProcessor project(':sad-architecture-compiler')
-    //annotationProcessor 'com.sad.architecture.compiler:sad-architecture-compiler:1.0.1'
+    //annotationProcessor project(':sad-architecture-compiler')
+    annotationProcessor 'com.google.auto.service:auto-service:latest.release'
+    annotationProcessor 'com.sad.architecture.compiler:sad-architecture-compiler:1.0.1'
     //api 'com.google.auto.service:auto-service:latest.release'
     implementation 'com.android.support.constraint:constraint-layout:latest.release'
     testImplementation 'junit:junit:4.12'
