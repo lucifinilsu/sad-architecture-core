@@ -50,7 +50,7 @@ apply from: rootProject.file('uploadbintrayJceneterScript_Api.gradle')
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.sad.assistant:sad-datastore:0.2.2'
+    api 'com.sad.assistant:sad-datastore:latest.release'
     api 'com.android.support:support-annotations:'+ rootProject.ext.supportVersion
     api 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
     //compile project(':sad-architecture-annotation')

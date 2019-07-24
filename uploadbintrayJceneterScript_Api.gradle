@@ -12,7 +12,7 @@ ext {
     siteUrl = 'https://github.com/lucifinilsu/SmartAndroidDeveloper'
     gitUrl = 'https://github.com/lucifinilsu/SmartAndroidDeveloper'
 
-    libraryVersion = '1.0.7'
+    libraryVersion = '1.0.8'
 
     developerId = 'lucifinilsu'
     developerName = 'lucifinilsu'
