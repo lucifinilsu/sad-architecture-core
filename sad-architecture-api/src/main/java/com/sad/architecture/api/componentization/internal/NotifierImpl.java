@@ -34,13 +34,14 @@ public class NotifierImpl extends ComponentResponseImpl.ResponseApi<NotifierImpl
     }
 
     @Override
-    public void notifyCallCompeleted(IResult result) {
+    public IComponentResponse notifyCallCompeleted(IResult result) {
+        IComponentResponse componentResponse=ComponentResponseImpl.newBuilder()
+                .cancelable(cancelable)
+                .sourceName(sourceName)
+                .result(result)
+                .build();
         if (interceptors!=null){
-            IComponentResponse componentResponse=ComponentResponseImpl.newBuilder()
-                    .cancelable(cancelable)
-                    .sourceName(sourceName)
-                    .result(result)
-                    .build();
+
             IComponentInterceptor interceptor=interceptors.get(this.currIndex);
             try {
                 ComponentResponseInterceptorChainImpl componentResponseInterceptorChain=new ComponentResponseInterceptorChainImpl(interceptors,this.currIndex,request);
@@ -50,8 +51,8 @@ public class NotifierImpl extends ComponentResponseImpl.ResponseApi<NotifierImpl
             }catch (Exception e){
                 e.printStackTrace();
             }
-
         }
+        return componentResponse;
     }
 
     @Override

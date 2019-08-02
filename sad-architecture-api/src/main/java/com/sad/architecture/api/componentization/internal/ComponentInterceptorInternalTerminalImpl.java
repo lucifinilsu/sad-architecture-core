@@ -49,7 +49,7 @@ public class ComponentInterceptorInternalTerminalImpl implements IComponentInter
 
     @Override
     public int interceptorPriority() {
-        return 0-Integer.MAX_VALUE;
+        return Integer.MIN_VALUE;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ComponentInterceptorInternalTerminalImpl implements IComponentInter
 
     @Override
     public int id() {
-        return 0-Integer.MAX_VALUE;
+        return interceptorPriority();
     }
 
 

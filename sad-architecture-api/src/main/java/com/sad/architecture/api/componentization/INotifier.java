@@ -8,7 +8,7 @@ import com.sad.architecture.api.componentization.impl.Result;
 
 public interface INotifier {
 
-    public void notifyCallCompeleted(IResult result);
+    public <IC extends IComponentResponse> IC notifyCallCompeleted(IResult result);
 
     public void interceptorIndex(int index);
     //public void notifyCallException(Exception e);
