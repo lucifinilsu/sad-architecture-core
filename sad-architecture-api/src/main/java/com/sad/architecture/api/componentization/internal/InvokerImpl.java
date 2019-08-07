@@ -369,8 +369,6 @@ public class InvokerImpl implements IInvoker {
         int start=0;
         INotifier notifier=NotifierImpl.newInstance(interceptors)
                 .request(request)
-                .sourceName(appComponent.componentInfo().name())
-                .cancelable(isAcr?null:appComponent)
                 ;
         ComponentRequestInterceptorChainImpl requestChain=new ComponentRequestInterceptorChainImpl(interceptors,start,notifier);
         requestChain.setRequest(request);

@@ -5,9 +5,12 @@ import android.os.Message;
 import android.os.Messenger;
 
 import com.sad.architecture.api.componentization.IComponentCallback;
+import com.sad.architecture.api.componentization.IComponentRequest;
 import com.sad.architecture.api.componentization.IComponentResponse;
 import com.sad.architecture.api.componentization.impl.ComponentResponseImpl;
 import com.sad.architecture.api.componentization.ipc.IPCConst;
+
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2019/4/11 0011.
@@ -32,6 +35,22 @@ public class InternalRelayComponentCallback implements IComponentCallback{
         message.what= IPCConst.POST_COMPONENT_RESPONSE;
         Bundle bundle=new Bundle();
         //IComponentResponse response= ComponentResponseImpl.newBuilder().build();
+        //置空非序列化对象
+        IComponentRequest request=response.request();
+        if (request!=null){
+            Object b=request.api().body();
+            if (!(b instanceof Serializable)){
+                request.body(null);
+            }
+            request.sourceLooper(null);
+            response=response.creator()
+                    .request(request)
+                    .create();
+        }
+        response=response.creator()
+                .cancelable((response.cancelable() instanceof Serializable)?response.cancelable():null)
+                .create();
+
         bundle.putSerializable(IPCConst.BUNDLE_KEY_COMPONENT_RESPONSE,response);
         message.setData(bundle);
         try {

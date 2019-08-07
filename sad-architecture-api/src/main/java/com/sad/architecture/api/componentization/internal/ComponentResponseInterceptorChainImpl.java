@@ -47,8 +47,8 @@ public class ComponentResponseInterceptorChainImpl implements IComponentResponse
         return this.response;
     }
 
-    @Override
+    /*@Override
     public IComponentRequest request() throws Exception {
         return this.request;
-    }
+    }*/
 }

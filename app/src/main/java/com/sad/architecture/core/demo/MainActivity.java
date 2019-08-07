@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
                 .callback(new IComponentCallback() {
                     @Override
                     public void onComponentInvokeCompleted(IComponentResponse response) {
-                        Log.e("ipc","------------------->IPC级回调生效,来自："+response.sourceName());
-                        tv.setText("IPC级回调生效,来自："+response.sourceName());
+                        Log.e("ipc","------------------->IPC级回调生效,来自："+response.request().api().id());
+                        tv.setText("IPC级回调生效,来自："+response.request().api().id());
                     }
                 })
                 .call()
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 .callback(new IComponentCallback() {
                     @Override
                     public void onComponentInvokeCompleted(IComponentResponse response) {
-                        Log.e("ipc","------------------->IPC级回调生效,Post请求，来自："+response.sourceName());
+                        Log.e("ipc","------------------->IPC级回调生效,Post请求，来自："+response.request().api().id());
                     }
                 })
                 .post()

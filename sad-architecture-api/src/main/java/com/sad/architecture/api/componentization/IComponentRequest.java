@@ -14,7 +14,7 @@ import java.io.Serializable;
  * Created by Administrator on 2019/3/22 0022.
  */
 
-public interface IComponentRequest<R extends IComponentRequest<R>> extends IParcelable,IDebugPrinter{
+public interface IComponentRequest<R extends IComponentRequest<R>> extends IParcelable,IDebugPrinter,Serializable{
 
      //final static long ID_NO_REQUEST=-86865161L;
 

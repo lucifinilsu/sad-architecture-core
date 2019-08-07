@@ -33,11 +33,10 @@ public class ComponentInterceptorInternalTerminalImpl implements IComponentInter
             result= appComponent.onComponentResponse(request,notifier);
         }
 
-        IComponentResponse response=ComponentResponseImpl.newBuilder()
-                .sourceName(appComponent.componentInfo().name())
+        IComponentResponse response=ComponentResponseImpl.newCreator()
                 .cancelable(appComponent)
-                .result(result)
-                .build();
+                .body(result)
+                .create();
         return response;
     }
 

@@ -8,11 +8,8 @@ import com.sad.architecture.api.componentization.impl.Result;
 
 public interface INotifier {
 
-    public <IC extends IComponentResponse> IC notifyCallCompeleted(IResult result);
+    <IC extends IComponentResponse> IC notifyCallCompeleted(IResult result);
 
-    public void interceptorIndex(int index);
-    //public void notifyCallException(Exception e);
-
-    //public void notifyCallCancel(boolean isForce);
+    void interceptorIndex(int index);
 
 }

@@ -14,13 +14,63 @@ import java.io.Serializable;
  * Created by Administrator on 2019/3/25 0025.
  */
 
-public class ComponentResponseImpl implements IComponentResponse,Serializable {
+public class ComponentResponseImpl implements IComponentResponse,IComponentResponse.Creator,Serializable {
     private IResult result;
     private ICancelable cancelable;
-    private String sourceName="";
-    //private int requestMode=IVisitor.CALLER;
+    private IComponentRequest request;
 
-    private ComponentResponseImpl(Builder builder){
+    private ComponentResponseImpl(){
+
+    }
+
+    public static IComponentResponse.Creator newCreator(){
+        return new ComponentResponseImpl();
+    }
+
+    @Override
+    public ICancelable cancelable() {
+        return this.cancelable;
+    }
+
+    @Override
+    public IComponentRequest request() {
+        return this.request;
+    }
+
+    @Override
+    public Creator creator() {
+        return this;
+    }
+
+    @Override
+    public IResult body() {
+        return result;
+    }
+
+    @Override
+    public Creator body(IResult body) {
+        this.result=result;
+        return this;
+    }
+
+    @Override
+    public Creator cancelable(ICancelable cancelable) {
+        this.cancelable=cancelable;
+        return this;
+    }
+
+    @Override
+    public Creator request(IComponentRequest request) {
+        this.request=request;
+        return this;
+    }
+
+    @Override
+    public IComponentResponse create() {
+        return this;
+    }
+
+    /*private ComponentResponseImpl(Builder builder){
         this.result=builder.result;
         this.cancelable=builder.cancelable;
         this.sourceName=builder.sourceName;
@@ -68,10 +118,10 @@ public class ComponentResponseImpl implements IComponentResponse,Serializable {
         return sourceName;
     }
 
-    /*@Override
+    *//*@Override
     public int requestMode() {
         return this.requestMode;
-    }*/
+    }*//*
 
 
 
@@ -106,10 +156,10 @@ public class ComponentResponseImpl implements IComponentResponse,Serializable {
             this.sourceName=sourceName;
             return (A) this;
         }
-        /*public A requestMode(@IVisitor.RequestModeIntDef int requestMode){
+        *//*public A requestMode(@IVisitor.RequestModeIntDef int requestMode){
             this.requestMode=requestMode;
             return (A) this;
-        }*/
-    }
+        }*//*
+    }*/
 
 }

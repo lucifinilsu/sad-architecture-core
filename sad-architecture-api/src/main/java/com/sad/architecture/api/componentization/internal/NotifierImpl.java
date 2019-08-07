@@ -15,9 +15,7 @@ import java.util.List;
  * Created by Administrator on 2019/3/25 0025.
  */
 
-public class NotifierImpl extends ComponentResponseImpl.ResponseApi<NotifierImpl>implements INotifier{
-
-
+public class NotifierImpl implements INotifier{
     public static NotifierImpl newInstance(List<IComponentInterceptor> interceptors){
         return new NotifierImpl(interceptors);
     }
@@ -35,13 +33,12 @@ public class NotifierImpl extends ComponentResponseImpl.ResponseApi<NotifierImpl
 
     @Override
     public IComponentResponse notifyCallCompeleted(IResult result) {
-        IComponentResponse componentResponse=ComponentResponseImpl.newBuilder()
-                .cancelable(cancelable)
-                .sourceName(sourceName)
-                .result(result)
-                .build();
+        IComponentResponse componentResponse=ComponentResponseImpl.newCreator()
+                .cancelable(null)//INotifier本身是在已经完成任务的情况下的回调，所以取消方法并没有意义，置空。
+                .body(result)
+                .request(request)
+                .create();
         if (interceptors!=null){
-
             IComponentInterceptor interceptor=interceptors.get(this.currIndex);
             try {
                 ComponentResponseInterceptorChainImpl componentResponseInterceptorChain=new ComponentResponseInterceptorChainImpl(interceptors,this.currIndex,request);

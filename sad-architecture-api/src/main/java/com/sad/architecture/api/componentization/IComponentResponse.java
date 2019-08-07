@@ -8,6 +8,34 @@ import java.io.Serializable;
 
 public interface IComponentResponse extends IBodyOwner,Serializable,ICancelable{
 
-    public String sourceName();
+    //String sourceName();
+
+    ICancelable cancelable();
+
+    IComponentRequest request();
+
+    Creator creator();
+
+    @Override
+    default boolean cancel(boolean isForce) throws Exception {
+        if (cancelable()!=null){
+            cancelable().cancel(isForce);
+        }
+        return false;
+    }
+
+    interface Creator{
+
+        Creator body(IResult body);
+
+        Creator cancelable(ICancelable cancelable);
+
+        //Creator sourceName(String sourceName);
+
+        Creator request(IComponentRequest request);
+
+        IComponentResponse create();
+
+    }
 
 }

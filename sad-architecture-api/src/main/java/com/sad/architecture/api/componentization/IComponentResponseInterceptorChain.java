@@ -12,6 +12,6 @@ public interface IComponentResponseInterceptorChain extends Serializable{
 
     default public IComponentResponse response()throws Exception {throw new Exception("u have not override mathod 'response',or not ensure response is not null.");};
 
-    default public IComponentRequest request()throws Exception {throw new Exception("u have not override mathod 'request',or not ensure request is not null.");};
+    //default public IComponentRequest request()throws Exception {throw new Exception("u have not override mathod 'request',or not ensure request is not null.");};
 
 }
