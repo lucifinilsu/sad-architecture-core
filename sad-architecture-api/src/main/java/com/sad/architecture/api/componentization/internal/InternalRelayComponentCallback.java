@@ -3,6 +3,7 @@ package com.sad.architecture.api.componentization.internal;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 
 import com.sad.architecture.api.componentization.IComponentCallback;
 import com.sad.architecture.api.componentization.IComponentRequest;
@@ -11,6 +12,7 @@ import com.sad.architecture.api.componentization.impl.ComponentResponseImpl;
 import com.sad.architecture.api.componentization.ipc.IPCConst;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 /**
  * Created by Administrator on 2019/4/11 0011.
@@ -42,11 +44,17 @@ public class InternalRelayComponentCallback implements IComponentCallback{
             if (!(b instanceof Serializable)){
                 request.body(null);
             }
+            else {
+                setNullFromUnSerializableAttribute(b);
+                request.body(b);
+            }
+            request.body(null);
             request.sourceLooper(null);
             response=response.creator()
                     .request(request)
                     .create();
         }
+
         response=response.creator()
                 .cancelable((response.cancelable() instanceof Serializable)?response.cancelable():null)
                 .create();
@@ -57,6 +65,24 @@ public class InternalRelayComponentCallback implements IComponentCallback{
             replyMessenger.send(message);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setNullFromUnSerializableAttribute(Object o){
+        Field[] field = o.getClass().getDeclaredFields();
+        for (Field f:field
+             ) {
+            try{
+                f.setAccessible(true);
+                Object v=f.get(o);
+                if (!(v instanceof Serializable)){
+                    Log.e("ipc","------------------->存在非序列化对象，类型："+f.getType()+",值："+v+",名称："+f.getName());
+                    f.set(o, null);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
     }
 

@@ -127,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
         SCore.newRequester(request1)
                 .addTargets("com.sad.architecture.core.demo2","com.sad.architecture.core.demo2",
                         TargetsLocalImpl.newInstance()
-                        .addLocal("xxx")
                         .addLocal("App2Activity2")
+                        .addLocal("xxx")
                 )
                 .callback(new IComponentCallback() {
                     @Override

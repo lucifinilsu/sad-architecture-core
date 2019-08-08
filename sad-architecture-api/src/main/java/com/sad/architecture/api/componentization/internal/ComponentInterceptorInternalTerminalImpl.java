@@ -1,6 +1,8 @@
 package com.sad.architecture.api.componentization.internal;
 
 
+import android.util.Log;
+
 import com.sad.architecture.api.componentization.IComponent;
 import com.sad.architecture.api.componentization.IComponentInterceptor;
 import com.sad.architecture.api.componentization.IComponentRequestInterceptorChain;
@@ -20,6 +22,7 @@ public class ComponentInterceptorInternalTerminalImpl implements IComponentInter
     private IComponent appComponent;
     public ComponentInterceptorInternalTerminalImpl(IComponent appComponent){
         this.appComponent=appComponent;
+        Log.e("ipc","------------------->终端拦截器初始化时组件:"+appComponent.getClass().getSimpleName());
     }
 
     @Override
@@ -30,7 +33,9 @@ public class ComponentInterceptorInternalTerminalImpl implements IComponentInter
             result=ResultImpl.asException().exceptionString("AppComponent is null !!!");
         }
         else {
+            Log.e("ipc","------------------->组件执行前夕:"+appComponent.getClass().getSimpleName());
             result= appComponent.onComponentResponse(request,notifier);
+
         }
 
         IComponentResponse response=ComponentResponseImpl.newCreator()

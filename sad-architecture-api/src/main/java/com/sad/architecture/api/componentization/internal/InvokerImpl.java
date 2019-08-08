@@ -187,8 +187,8 @@ public class InvokerImpl implements IInvoker {
             }
             Collections.sort(components);
             Log.e("ipc","------------------->本地事件批量执行:"+componentNames);
-            if (components.size()==1){
-
+            for (IComponent componentTest:components){
+                Log.e("ipc","------------------->即将执行的组件:"+componentTest.getClass().getSimpleName());
             }
             for (IComponent component:components
                     ) {
@@ -202,7 +202,7 @@ public class InvokerImpl implements IInvoker {
 
                 switch (threadMode){
                     case TheradEnvironment.MAIN:
-                        Log.e("ipc","------------------->主线程执行:"+component.componentInfo().name());
+                        Log.e("ipc","------------------->主线程执行:"+component.componentInfo().name()+",request="+request);
                         callInMainThread(component,request,interceptors,callback);
 
                         break;
@@ -264,6 +264,7 @@ public class InvokerImpl implements IInvoker {
                                   IComponentRequest request,
                                   List<IComponentInterceptor> interceptors,
                                   IComponentCallback callback){
+
         if (Looper.myLooper() != Looper.getMainLooper()){
             SADHandlerAssistant.runOnUIThread(new Runnable() {
                 @Override
@@ -360,6 +361,7 @@ public class InvokerImpl implements IInvoker {
             IComponentCallback callback
     ) throws Exception{
         boolean isAcr=isAcrossProcess(request);
+        Log.e("ipc","------------------->进入拦截器之前:"+appComponent.getClass().getSimpleName());
         Log.e("ipc","------------------->是否跨进程："+isAcr);
         IComponentInterceptor internalStartinterceptor=new ComponentInterceptorInternalOriginImpl(callback);
         IComponentInterceptor internalEndInterceptor=new ComponentInterceptorInternalTerminalImpl(appComponent);
