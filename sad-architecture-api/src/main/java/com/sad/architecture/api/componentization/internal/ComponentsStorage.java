@@ -6,6 +6,7 @@ import android.util.Log;
 import com.sad.architecture.api.componentization.IComponent;
 import com.sad.basic.utils.assistant.LogUtils;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -46,7 +47,10 @@ public class ComponentsStorage {
         Class<C> appComponentClass=getAppComponentClass(key);
         C appComponent=null;
         if (objects!=null && classes!=null && classes.length==objects.length){
-            appComponent=appComponentClass.getDeclaredConstructor(classes).newInstance(objects);
+
+            Constructor<C> constructor=appComponentClass.getDeclaredConstructor(classes);
+            constructor.setAccessible(true);
+            appComponent= constructor.newInstance(objects);
         }
         else{
             appComponent=appComponentClass.newInstance();

@@ -29,6 +29,7 @@ import com.sad.architecture.api.init.ContextHolder;
 import com.sad.architecture.api.init.Initializer;
 import com.sad.basic.utils.app.AppInfoUtil;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
@@ -145,7 +146,9 @@ public class SCore {
                 try{
                     String className=cls.getPackage().getName()+"."+dynamicComponentClsName;
                     Class<AbstractDynamicComponent<O>> dc= (Class<AbstractDynamicComponent<O>>) Class.forName(className);
-                    AbstractDynamicComponent<O> dynamicComponent=dc.getDeclaredConstructor(cls).newInstance(host);
+                    Constructor constructor=dc.getDeclaredConstructor(cls);
+                    constructor.setAccessible(true);
+                    AbstractDynamicComponent<O> dynamicComponent= (AbstractDynamicComponent<O>) constructor.newInstance(host);
                     //存入集合
                     ComponentsStorage.registerComponentInstance(componentName,dynamicComponent);
                     //检查粘性请求
