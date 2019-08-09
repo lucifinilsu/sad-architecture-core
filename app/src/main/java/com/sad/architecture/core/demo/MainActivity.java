@@ -25,18 +25,23 @@ import com.sad.architecture.api.componentization.internal.ComponentInstanceFacto
 import java.io.Serializable;
 import java.util.Observer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseTestActivity {
 
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
     }
     TextView tv;
+
+    @Override
+    public void onRegister() {
+        SCore.registerReceiverHost(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SCore.registerReceiverHost(this);
 
         int id = getIntent().getIntExtra("id",0);
         // Example of a call to a native method
@@ -99,9 +104,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     @ComponentResponse(componentName = "TD")
-    public int onTestDym(IComponentRequest request, INotifier notifier){
+    public void onTestDym(IComponentRequest request, INotifier notifier){
         Toast.makeText(getApplicationContext(),"-------->获取到请求了："+request.api().body(),Toast.LENGTH_LONG).show();
-        return 2;
     }
 
 

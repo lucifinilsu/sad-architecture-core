@@ -145,7 +145,7 @@ public class SCore {
                 try{
                     String className=cls.getPackage().getName()+"."+dynamicComponentClsName;
                     Class<AbstractDynamicComponent<O>> dc= (Class<AbstractDynamicComponent<O>>) Class.forName(className);
-                    AbstractDynamicComponent<O> dynamicComponent=dc.getConstructor(cls).newInstance(host);
+                    AbstractDynamicComponent<O> dynamicComponent=dc.getDeclaredConstructor(cls).newInstance(host);
                     //存入集合
                     ComponentsStorage.registerComponentInstance(componentName,dynamicComponent);
                     //检查粘性请求

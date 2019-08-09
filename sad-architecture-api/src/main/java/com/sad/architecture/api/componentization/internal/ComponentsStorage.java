@@ -46,7 +46,7 @@ public class ComponentsStorage {
         Class<C> appComponentClass=getAppComponentClass(key);
         C appComponent=null;
         if (objects!=null && classes!=null && classes.length==objects.length){
-            appComponent=appComponentClass.getConstructor(classes).newInstance(objects);
+            appComponent=appComponentClass.getDeclaredConstructor(classes).newInstance(objects);
         }
         else{
             appComponent=appComponentClass.newInstance();
