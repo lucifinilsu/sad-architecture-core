@@ -92,7 +92,7 @@ public abstract class AbstractAndroidActivityRouterProxyComponent implements ICo
             boolean success=start(context,intent,params);
             if (success){
                 IResult result=ResultImpl.<Boolean>asDone().data(success);
-                //notifier.notifyCallCompeleted(result);
+                notifier.notifyCallCompeleted(result);
                 return result;
             }
             else {

@@ -1,5 +1,8 @@
 package com.sad.architecture.api.componentization.impl;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.sad.architecture.annotation.ComponentResponse;
 import com.sad.architecture.api.componentization.ICancelable;
 import com.sad.architecture.api.componentization.IComponentRequest;
@@ -15,9 +18,25 @@ import java.io.Serializable;
  */
 
 public class ComponentResponseImpl implements IComponentResponse,IComponentResponse.Creator,Serializable {
-    private IResult result;
+    private Object result;
     private ICancelable cancelable;
     private IComponentRequest request;
+
+    public static final Parcelable.Creator<IComponentResponse> CREATOR = new Parcelable.Creator<IComponentResponse>(){
+
+        @Override
+        public IComponentResponse createFromParcel(Parcel source) {
+            IComponentResponse componentResponse= new ComponentResponseImpl();
+            componentResponse.readFromParcel(source);
+            return componentResponse;
+        }
+
+        @Override
+        public IComponentResponse[] newArray(int size) {
+            return new ComponentResponseImpl[size];
+        }
+    };
+
 
     private ComponentResponseImpl(){
 
@@ -43,12 +62,12 @@ public class ComponentResponseImpl implements IComponentResponse,IComponentRespo
     }
 
     @Override
-    public IResult body() {
-        return result;
+    public <D> D body() {
+        return (D) result;
     }
 
     @Override
-    public Creator body(IResult body) {
+    public Creator body(Object body) {
         this.result=result;
         return this;
     }

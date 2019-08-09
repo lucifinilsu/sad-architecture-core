@@ -365,14 +365,17 @@ public class InvokerImpl implements IInvoker {
         Log.e("ipc","------------------->是否跨进程："+isAcr);
         IComponentInterceptor internalStartinterceptor=new ComponentInterceptorInternalOriginImpl(callback);
         IComponentInterceptor internalEndInterceptor=new ComponentInterceptorInternalTerminalImpl(appComponent);
+        //Log.e("ipc","------------------->终端拦截器内存地址(外)："+internalEndInterceptor);
         Collections.sort(interceptors);
-        interceptors.add(0,internalStartinterceptor);
-        interceptors.add(internalEndInterceptor);
+        List<IComponentInterceptor> interceptorsNewInstances=new ArrayList<>();
+        interceptorsNewInstances.addAll(interceptors);
+        interceptorsNewInstances.add(0,internalStartinterceptor);
+        interceptorsNewInstances.add(internalEndInterceptor);
         int start=0;
-        INotifier notifier=NotifierImpl.newInstance(interceptors)
+        INotifier notifier=NotifierImpl.newInstance(interceptorsNewInstances)
                 .request(request)
                 ;
-        ComponentRequestInterceptorChainImpl requestChain=new ComponentRequestInterceptorChainImpl(interceptors,start,notifier);
+        ComponentRequestInterceptorChainImpl requestChain=new ComponentRequestInterceptorChainImpl(interceptorsNewInstances,start,notifier);
         requestChain.setRequest(request);
         return requestChain.proceedRequest(request);
     }

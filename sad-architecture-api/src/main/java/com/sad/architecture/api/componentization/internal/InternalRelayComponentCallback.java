@@ -59,7 +59,7 @@ public class InternalRelayComponentCallback implements IComponentCallback{
                 .cancelable((response.cancelable() instanceof Serializable)?response.cancelable():null)
                 .create();
 
-        bundle.putSerializable(IPCConst.BUNDLE_KEY_COMPONENT_RESPONSE,response);
+        bundle.putParcelable(IPCConst.BUNDLE_KEY_COMPONENT_RESPONSE,response);
         message.setData(bundle);
         try {
             replyMessenger.send(message);

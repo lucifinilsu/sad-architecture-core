@@ -4,6 +4,7 @@ package com.sad.architecture.api.componentization.ipc;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -53,9 +54,8 @@ public class ResultReceiverHandler extends Handler {
             if (msg.what==IPCConst.POST_COMPONENT_RESPONSE){
                 Bundle bundle = msg.getData();
                 if (bundle!=null){
-                    Serializable s_response=bundle.getSerializable(IPCConst.BUNDLE_KEY_COMPONENT_RESPONSE);
-                    if (s_response!=null){
-                        IComponentResponse response= (IComponentResponse) s_response;
+                    IComponentResponse response=bundle.getParcelable(IPCConst.BUNDLE_KEY_COMPONENT_RESPONSE);
+                    if (response!=null){
                         clientCallback.onComponentInvokeCompleted(response);
                     }
                 }
