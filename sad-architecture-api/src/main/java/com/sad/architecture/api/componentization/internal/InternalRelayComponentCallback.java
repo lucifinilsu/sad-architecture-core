@@ -3,6 +3,7 @@ package com.sad.architecture.api.componentization.internal;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.sad.architecture.api.componentization.IComponentCallback;
@@ -41,14 +42,14 @@ public class InternalRelayComponentCallback implements IComponentCallback{
         IComponentRequest request=response.request();
         if (request!=null){
             Object b=request.api().body();
-            if (!(b instanceof Serializable)){
+            if (!(b instanceof Serializable) && !(b instanceof Parcelable) && !isPrimitive(b)){
                 request.body(null);
             }
             else {
                 setNullFromUnSerializableAttribute(b);
                 request.body(b);
             }
-            request.body(null);
+            //request.body(null);
             request.sourceLooper(null);
             response=response.creator()
                     .request(request)
@@ -75,7 +76,7 @@ public class InternalRelayComponentCallback implements IComponentCallback{
             try{
                 f.setAccessible(true);
                 Object v=f.get(o);
-                if (!(v instanceof Serializable)){
+                if (!(v instanceof Serializable) && !(v instanceof Parcelable) && !isPrimitive(v)){
                     Log.e("ipc","------------------->存在非序列化对象，类型："+f.getType()+",值："+v+",名称："+f.getName());
                     f.set(o, null);
                 }
@@ -83,6 +84,15 @@ public class InternalRelayComponentCallback implements IComponentCallback{
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    /**判断一个对象是否是基本类型或基本类型的封装类型*/
+    private boolean isPrimitive(Object obj) {
+        try {
+            return ((Class<?>)obj.getClass().getField("TYPE").get(null)).isPrimitive();
+        } catch (Exception e) {
+            return false;
         }
     }
 
