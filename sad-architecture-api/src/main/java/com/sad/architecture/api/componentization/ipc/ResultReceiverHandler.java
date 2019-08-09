@@ -54,6 +54,7 @@ public class ResultReceiverHandler extends Handler {
             if (msg.what==IPCConst.POST_COMPONENT_RESPONSE){
                 Bundle bundle = msg.getData();
                 if (bundle!=null){
+                    bundle.setClassLoader(IComponentResponse.class.getClassLoader());
                     IComponentResponse response=bundle.getParcelable(IPCConst.BUNDLE_KEY_COMPONENT_RESPONSE);
                     if (response!=null){
                         clientCallback.onComponentInvokeCompleted(response);
