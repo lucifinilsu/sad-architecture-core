@@ -68,7 +68,7 @@ public class ComponentResponseImpl implements IComponentResponse,IComponentRespo
 
     @Override
     public Creator body(Object body) {
-        this.result=result;
+        this.result=body;
         return this;
     }
 
