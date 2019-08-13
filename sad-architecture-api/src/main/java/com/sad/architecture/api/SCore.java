@@ -146,7 +146,13 @@ public class SCore {
                 try{
                     String className=cls.getPackage().getName()+"."+dynamicComponentClsName;
                     Class<AbstractDynamicComponent<O>> dc= (Class<AbstractDynamicComponent<O>>) Class.forName(className);
-                    Constructor constructor=dc.getDeclaredConstructor(cls);
+                    Constructor constructor=null;
+                    try {
+                        constructor=dc.getDeclaredConstructor(cls);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        constructor=dc.getConstructor(cls);
+                    }
                     constructor.setAccessible(true);
                     AbstractDynamicComponent<O> dynamicComponent= (AbstractDynamicComponent<O>) constructor.newInstance(host);
                     //存入集合

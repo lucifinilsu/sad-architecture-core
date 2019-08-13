@@ -47,13 +47,25 @@ public class ComponentsStorage {
         Class<C> appComponentClass=getAppComponentClass(key);
         C appComponent=null;
         if (objects!=null && classes!=null && classes.length==objects.length){
+            Constructor<C> constructor=null;
+            try {
+                constructor=appComponentClass.getDeclaredConstructor(classes);
+            }catch (Exception e){
+                e.printStackTrace();
+                constructor=appComponentClass.getConstructor(classes);
 
-            Constructor<C> constructor=appComponentClass.getDeclaredConstructor(classes);
+            }
             constructor.setAccessible(true);
             appComponent= constructor.newInstance(objects);
         }
         else{
-            appComponent=appComponentClass.newInstance();
+            try {
+                appComponent=appComponentClass.getDeclaredConstructor().newInstance();
+            }catch (Exception e){
+                e.printStackTrace();
+                appComponent=appComponentClass.getConstructor().newInstance();
+            }
+
         }
         return appComponent;
     }
