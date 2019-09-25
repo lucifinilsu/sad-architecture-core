@@ -59,12 +59,22 @@ public class ComponentsStorage {
             appComponent= constructor.newInstance(objects);
         }
         else{
-            try {
+            /*try {
                 appComponent=appComponentClass.getDeclaredConstructor().newInstance();
             }catch (Exception e){
                 e.printStackTrace();
                 appComponent=appComponentClass.getConstructor().newInstance();
+            }*/
+            Constructor<C> constructor=null;
+            try {
+                constructor=appComponentClass.getDeclaredConstructor();
+            }catch (Exception e){
+                e.printStackTrace();
+                constructor=appComponentClass.getConstructor();
+
             }
+            constructor.setAccessible(true);
+            appComponent= constructor.newInstance();
 
         }
         return appComponent;
