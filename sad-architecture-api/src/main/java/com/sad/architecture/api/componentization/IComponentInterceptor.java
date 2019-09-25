@@ -1,6 +1,6 @@
 package com.sad.architecture.api.componentization;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 

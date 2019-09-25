@@ -1,6 +1,6 @@
 package com.sad.architecture.core.demo;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sad.architecture.annotation.AppComponent;
 

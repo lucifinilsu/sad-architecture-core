@@ -93,7 +93,7 @@ public abstract class AppAbsRouterProcessor extends AbsSADProcessor{
                     .addModifiers(Modifier.PUBLIC)
                     .addStatement("return $T.class",ClassName.bestGuess(type_e_class.getQualifiedName().toString()))
                     .addAnnotation(Override.class)
-                    .addAnnotation(ClassName.bestGuess("android.support.annotation.NonNull"))
+                    .addAnnotation(ClassName.bestGuess("androidx.annotation.NonNull"))
                     .build();
 
             TypeSpec.Builder tb=TypeSpec.classBuilder(componentClsName)

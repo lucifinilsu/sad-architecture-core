@@ -1,7 +1,6 @@
 package com.sad.architecture.core.demo;
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by Administrator on 2019/5/10 0010.

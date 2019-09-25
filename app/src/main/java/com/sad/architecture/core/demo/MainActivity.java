@@ -1,8 +1,8 @@
 package com.sad.architecture.core.demo;
 
 import android.net.Uri;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,13 +17,7 @@ import com.sad.architecture.api.componentization.IComponentResponse;
 import com.sad.architecture.api.componentization.INotifier;
 import com.sad.architecture.api.componentization.extension.router.activity.ActivityRouterParams;
 import com.sad.architecture.api.componentization.impl.ComponentRequestImpl;
-import com.sad.architecture.api.componentization.impl.TargetsImpl;
 import com.sad.architecture.api.componentization.impl.TargetsLocalImpl;
-import com.sad.architecture.api.componentization.internal.ComponentInstanceFactoryCallerImpl;
-import com.sad.architecture.api.componentization.internal.ComponentInstanceFactoryPosterImpl;
-
-import java.io.Serializable;
-import java.util.Observer;
 
 public class MainActivity extends BaseTestActivity {
 

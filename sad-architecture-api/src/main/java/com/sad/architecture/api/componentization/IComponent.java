@@ -1,6 +1,6 @@
 package com.sad.architecture.api.componentization;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sad.architecture.annotation.AppComponent;
 import com.sad.architecture.api.componentization.impl.Result;

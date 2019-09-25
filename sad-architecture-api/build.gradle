@@ -9,7 +9,7 @@ android {
         versionCode 3
         versionName "1.1.2"
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
     aaptOptions {
@@ -55,8 +55,8 @@ dependencies {
     api 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
     //compile project(':sad-architecture-annotation')
     api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.0'
-    api "android.arch.lifecycle:common-java8:latest.release"
+    api 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:latest.release'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:latest.release'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }

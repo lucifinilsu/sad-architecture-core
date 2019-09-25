@@ -1,6 +1,6 @@
 package com.sad.architecture.core.demo;
 
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import com.sad.architecture.api.SCore;
 
