@@ -27,10 +27,17 @@ public class ComponentRequestInterceptorChainImpl implements IComponentRequestIn
     @Override
     public <T extends IComponentResponse> T proceedRequest(IComponentRequest request) throws Exception {
         this.request=request;
-        IComponentInterceptor interceptor = interceptors.get(currIndex);
-        ComponentRequestInterceptorChainImpl chain=new ComponentRequestInterceptorChainImpl(interceptors,currIndex+1,this.notifier);
-        chain.setRequest(request);
-        T future = interceptor.OnRequestIntercepted(chain,notifier);
+        T future=null;
+        if (currIndex>-1 && currIndex<interceptors.size()){
+            IComponentInterceptor interceptor = interceptors.get(currIndex);
+            ComponentRequestInterceptorChainImpl chain=new ComponentRequestInterceptorChainImpl(interceptors,currIndex+1,this.notifier);
+            chain.setRequest(request);
+            future = interceptor.OnRequestIntercepted(chain,notifier);
+        }
+        else {
+            throw new Exception("IComponentInterceptors's currIndex is invalid,it is "+currIndex);
+        }
+
         return future;
     }
 

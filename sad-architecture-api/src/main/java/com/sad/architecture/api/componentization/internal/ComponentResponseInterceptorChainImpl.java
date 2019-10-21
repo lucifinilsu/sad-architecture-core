@@ -35,10 +35,16 @@ public class ComponentResponseInterceptorChainImpl implements IComponentResponse
     @Override
     public void proceedResponse(IComponentResponse response) throws Exception{
         this.response=response;
-        IComponentInterceptor interceptor = interceptors.get(currIndex);
-        ComponentResponseInterceptorChainImpl chain=new ComponentResponseInterceptorChainImpl(interceptors,currIndex-1,request);
-        chain.setResponse(response);
-        interceptor.onResponseIntercepted(chain);
+        if (currIndex>-1 && currIndex<interceptors.size()){
+            IComponentInterceptor interceptor = interceptors.get(currIndex);
+            ComponentResponseInterceptorChainImpl chain=new ComponentResponseInterceptorChainImpl(interceptors,currIndex-1,request);
+            chain.setResponse(response);
+            interceptor.onResponseIntercepted(chain);
+        }
+        else {
+            throw new Exception("IComponentInterceptors's currIndex is invalid,it is "+currIndex);
+        }
+
     }
 
 
