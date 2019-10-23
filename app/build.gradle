@@ -64,6 +64,8 @@ configurations.all {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:latest.release'
+    api 'androidx.multidex:multidex:latest.release'
     api 'com.sad.core.appgo:sad-appgo-api:latest.release'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     api project(':sad-architecture-api')

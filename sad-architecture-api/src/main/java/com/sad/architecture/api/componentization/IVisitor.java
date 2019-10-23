@@ -1,5 +1,6 @@
 package com.sad.architecture.api.componentization;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +27,7 @@ public interface IVisitor<V extends IVisitor<V>> {
 
         IComponentInstanceConstructor componentConstructor(String name);
 
-        default <IC> IC require(String name) throws Exception{
+        default <IC> List<IC> require(String name) throws Exception{
             IComponentInstanceFactory factory = factory();
             if (factory!=null /*&& requesterApi()!=null*/){
                 IComponentInstanceConstructor constructor=componentConstructor(name);

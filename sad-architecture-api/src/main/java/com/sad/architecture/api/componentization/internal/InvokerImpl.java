@@ -170,19 +170,23 @@ public class InvokerImpl implements IInvoker {
             List<IComponent> components=new ArrayList<>();
             for (String sn:componentNames
                     ) {
-                Object subscriber=visitorApi.require(sn);
-                if (!(subscriber instanceof IComponent)){
-                    continue;
-                }
-                if (subscriber!=null){
-                    components.add((IComponent) subscriber);
-                }
-                else {
-                    //名为sn的组件尚未注册进动态订阅者集合里，则根据粘性策略做相应选择
-                    cacheSticky(request,visitorApi.factory(),sn);
+                List subscribers=visitorApi.require(sn);
+                for (Object subscriber:subscribers
+                     ) {
+                    if (!(subscriber instanceof IComponent)){
+                        continue;
+                    }
+                    if (subscriber!=null){
+                        components.add((IComponent) subscriber);
+                    }
+                    else {
+                        //名为sn的组件尚未注册进动态订阅者集合里，则根据粘性策略做相应选择
+                        cacheSticky(request,visitorApi.factory(),sn);
                     /*if (this.requestMode==POSTER){
 
                     }*/
+                    }
+
                 }
             }
             Collections.sort(components);

@@ -95,24 +95,32 @@ public class SCore {
     }
 
     public static <IC> IC exposerCalledInterface(String name,IComponentInstanceConstructor componentInstanceConstructor)throws Exception{
-        return RequesterImpl.newInstance(null)
+        List<IC> icList=RequesterImpl.newInstance(null)
                 .visit(ComponentInstanceFactoryCallerImpl.newInstance())
                 .addComponentConstructor(name,componentInstanceConstructor)
                 .api()
                 .require(name)
                 ;
+        if (icList == null || icList.isEmpty()) {
+            throw new Exception("components named '"+name+"' you called is not found");
+        }
+        return icList.get(0);
     }
     public static <IC> IC exposerCalledInterface(String name)throws Exception{
         return exposerCalledInterface(name,null);
     }
 
-    public static <IC> IC exposerPostedInterface(String name,IComponentInstanceConstructor componentInstanceConstructor)throws Exception{
-        return RequesterImpl.newInstance(null)
+    public static <IC> List<IC> exposerPostedInterface(String name,IComponentInstanceConstructor componentInstanceConstructor)throws Exception{
+        List<IC> icList = RequesterImpl.newInstance(null)
                 .visit(ComponentInstanceFactoryPosterImpl.newInstance())
                 .addComponentConstructor(name,componentInstanceConstructor)
                 .api()
                 .require(name)
                 ;
+        if (icList == null || icList.isEmpty()) {
+            throw new Exception("components named '"+name+"' you called is not found");
+        }
+        return icList;
     }
     public static <IC> IC exposerPostedInterface(String name)throws Exception{
         return exposerCalledInterface(name,null);

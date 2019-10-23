@@ -7,7 +7,9 @@ import com.sad.architecture.api.componentization.IComponent;
 import com.sad.basic.utils.assistant.LogUtils;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,7 +21,7 @@ public class ComponentsStorage {
 
     protected static final ConcurrentMap<String, Class<?>> COMPONENTS = new ConcurrentHashMap<>();
 
-    protected static final ConcurrentMap<String,IComponent> COMPONENTS_INSTANCE = new ConcurrentHashMap<>();
+    protected static final ConcurrentMap<String, List<IComponent>> COMPONENTS_INSTANCE = new ConcurrentHashMap<>();
 
     public static int componentsClassSize(){
         return COMPONENTS.size();
@@ -28,7 +30,7 @@ public class ComponentsStorage {
         return COMPONENTS_INSTANCE.size();
     }
 
-    protected static IComponent  getComponentInstance(String name){
+    protected static List<IComponent> getComponentInstance(String name){
         return COMPONENTS_INSTANCE.get(name);
     }
 
@@ -85,7 +87,12 @@ public class ComponentsStorage {
         COMPONENTS.put(name,cls);
     }
     public static void registerComponentInstance(String name,IComponent component){
-        COMPONENTS_INSTANCE.put(name,component);
+        List<IComponent> components=COMPONENTS_INSTANCE.get(name);
+        if (components==null){
+            components=new ArrayList<>();
+        }
+        components.add(component);
+        COMPONENTS_INSTANCE.put(name,components);
     }
 
     public static void unregisterComponentClass(String name){

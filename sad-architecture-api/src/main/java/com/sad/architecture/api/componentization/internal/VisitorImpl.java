@@ -8,6 +8,7 @@ import com.sad.architecture.api.componentization.IRequester;
 import com.sad.architecture.api.componentization.IVisitor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,7 +58,7 @@ public class VisitorImpl implements IVisitor<VisitorImpl>,IVisitor.Api {
     }
 
     @Override
-    public <IC> IC require(String name) throws Exception {
+    public <IC> List<IC> require(String name) throws Exception {
         return Api.super.require(name);
     }
 

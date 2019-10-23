@@ -6,6 +6,7 @@ import com.sad.architecture.api.componentization.IComponentInstanceFactory;
 import com.sad.architecture.api.componentization.IVisitor;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Administrator on 2019/1/22 0022.
@@ -17,7 +18,7 @@ public class ComponentInstanceFactoryPosterImpl implements IComponentInstanceFac
     }
     protected ComponentInstanceFactoryPosterImpl(){}
     @Override
-    public IComponent require(String name, IComponentInstanceConstructor componentInstanceConstructor) throws Exception {
+    public List<IComponent> require(String name, IComponentInstanceConstructor componentInstanceConstructor) throws Exception {
         return ComponentsStorage.getComponentInstance(name);
     }
 

@@ -5,7 +5,9 @@ import com.sad.architecture.api.componentization.IComponentInstanceConstructor;
 import com.sad.architecture.api.componentization.IComponentInstanceFactory;
 import com.sad.architecture.api.componentization.IVisitor;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Administrator on 2019/1/22 0022.
@@ -19,11 +21,14 @@ public class ComponentInstanceFactoryCallerImpl implements IComponentInstanceFac
 
     private ComponentInstanceFactoryCallerImpl(){}
     @Override
-    public <C> C require(String name, IComponentInstanceConstructor componentInstanceConstructor) throws Exception {
+    public <C> List<C> require(String name, IComponentInstanceConstructor componentInstanceConstructor) throws Exception {
+        List<C> list=new ArrayList<C>();
         if (componentInstanceConstructor!=null){
-            return ComponentsStorage.getNewAppComponentInstance(name,componentInstanceConstructor.constructorClass(),componentInstanceConstructor.constructorParameters());
+            list.add(ComponentsStorage.getNewAppComponentInstance(name,componentInstanceConstructor.constructorClass(),componentInstanceConstructor.constructorParameters()));
+            return list;
         }
-        return ComponentsStorage.getNewAppComponentInstance(name,null);
+        list.add(ComponentsStorage.getNewAppComponentInstance(name,null));
+        return list;
 
     }
 
