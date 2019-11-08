@@ -171,6 +171,9 @@ public class InvokerImpl implements IInvoker {
             for (String sn:componentNames
                     ) {
                 List subscribers=visitorApi.require(sn);
+                if (subscribers==null){
+                    continue;
+                }
                 for (Object subscriber:subscribers
                      ) {
                     if (!(subscriber instanceof IComponent)){
