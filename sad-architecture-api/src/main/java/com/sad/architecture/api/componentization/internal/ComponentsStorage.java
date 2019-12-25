@@ -30,7 +30,7 @@ public class ComponentsStorage {
         return COMPONENTS_INSTANCE.size();
     }
 
-    protected static List<IComponent> getComponentInstance(String name){
+    public static List<IComponent> getComponentInstance(String name){
         return COMPONENTS_INSTANCE.get(name);
     }
 
@@ -99,7 +99,11 @@ public class ComponentsStorage {
         COMPONENTS.remove(name);
     }
     public static void unregisterComponentInstance(String name){
-        COMPONENTS_INSTANCE.remove(name);
+        List<IComponent> components=COMPONENTS_INSTANCE.get(name);
+        if (components!=null){
+            COMPONENTS_INSTANCE.get(name).clear();
+        }
+        //COMPONENTS_INSTANCE.remove(name);
     }
 
     public static void clearComponentClass(){

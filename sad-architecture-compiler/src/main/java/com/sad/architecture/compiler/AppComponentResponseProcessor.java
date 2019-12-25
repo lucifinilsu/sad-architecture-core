@@ -148,20 +148,36 @@ public class AppComponentResponseProcessor extends AbsSADProcessor{
                         cn_result_impl
                 )
                 .build();
-
+        /*MethodSpec ms_componentInfo=MethodSpec.methodBuilder("componentInfo")
+                .addAnnotation(Override.class)
+                .returns(cn_i_result)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(ParameterSpec.builder(ClassName.bestGuess(Constant.PACKAGE_SAD_ARCHITECTURE_API_COMPONENTIZATION+".IComponentRequest"),"request").build())
+                .addParameter(ParameterSpec.builder(ClassName.bestGuess(Constant.PACKAGE_SAD_ARCHITECTURE_API_COMPONENTIZATION+".INotifier"),"notifier").build())
+                .addStatement("$T ex=null;",Exception.class)
+                .beginControlFlow("try")
+                .addCode(codeInvokeHostMethod)
+                .endControlFlow("catch($T e){e.printStackTrace();ex=e;}",
+                        Exception.class
+                )
+                .addStatement("return $T.asException().exceptionString(ex.getMessage())",
+                        cn_result_impl
+                )
+                .build();*/
         MethodSpec ms_c=MethodSpec.constructorBuilder()
                 .addParameter(ParameterSpec.builder(TypeVariableName.get(e_class.asType()),"host").build())
-                .addStatement("super(host)")
+                .addParameter(ComponentResponse.class,"componentResponse")
+                .addStatement("super(host,componentResponse)")
                 .build()
                 ;
 
         TypeSpec.Builder tb=TypeSpec.classBuilder(dynamicComponentClsName)
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(AnnotationSpec.builder(AppComponent.class)
+                /*.addAnnotation(AnnotationSpec.builder(AppComponent.class)
                         .addMember("name","$S",annotation_eventResponse.componentName())
                         .addMember("priority",annotation_eventResponse.priority()+"")
                         .addMember("threadEnvironment",annotation_eventResponse.threadEnvironment()+"")
-                        .build())
+                        .build())*/
                 .addMethod(ms_c)
                 .addMethod(ms_onComponentResponse)
                 .superclass(ParameterizedTypeName.get(ClassName.bestGuess(Constant.PACKAGE_SAD_ARCHITECTURE_API_COMPONENTIZATION_IMPL+".AbstractDynamicComponent"),

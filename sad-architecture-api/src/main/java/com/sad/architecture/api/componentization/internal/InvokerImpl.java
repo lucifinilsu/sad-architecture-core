@@ -171,6 +171,7 @@ public class InvokerImpl implements IInvoker {
             for (String sn:componentNames
                     ) {
                 List subscribers=visitorApi.require(sn);
+                Log.e("ipc","------------------->组件实例仓库中name="+sn+"的实例组："+subscribers);
                 if (subscribers==null){
                     continue;
                 }

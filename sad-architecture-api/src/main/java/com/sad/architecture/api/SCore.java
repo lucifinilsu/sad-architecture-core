@@ -138,7 +138,7 @@ public class SCore {
         IPCBridge.registerCurrClientMessengerToMainProcessServer();
     }
     public static <O> void registerReceiverHost(O host){
-        registerReceiverHost(host,true);
+        registerReceiverHost(host,false);
     }
     public static <O> void registerReceiverHost(O host,boolean autoRecycleWhenHostIsLifecycleOwner){
         Class<?> cls=  host.getClass();
@@ -156,13 +156,13 @@ public class SCore {
                     Class<AbstractDynamicComponent<O>> dc= (Class<AbstractDynamicComponent<O>>) Class.forName(className);
                     Constructor constructor=null;
                     try {
-                        constructor=dc.getDeclaredConstructor(cls);
+                        constructor=dc.getDeclaredConstructor(cls,ComponentResponse.class);
                     }catch (Exception e){
                         e.printStackTrace();
-                        constructor=dc.getConstructor(cls);
+                        constructor=dc.getConstructor(cls,ComponentResponse.class);
                     }
                     constructor.setAccessible(true);
-                    AbstractDynamicComponent<O> dynamicComponent= (AbstractDynamicComponent<O>) constructor.newInstance(host);
+                    AbstractDynamicComponent<O> dynamicComponent= (AbstractDynamicComponent<O>) constructor.newInstance(host,componentResponse);
                     //存入集合
                     ComponentsStorage.registerComponentInstance(componentName,dynamicComponent);
                     //检查粘性请求
@@ -185,9 +185,11 @@ public class SCore {
     }
 
     public static <O> void unregisterReceiverHost(O host){
+
         Class<?> cls=  host.getClass();
         String hostClsName=cls.getCanonicalName();
         Method[] methods=cls.getDeclaredMethods();
+
         for (Method method:methods
                 ) {
             ComponentResponse componentResponse=method.getAnnotation(ComponentResponse.class);
@@ -196,7 +198,8 @@ public class SCore {
                 String dynamicComponentClsName= NameUtils.getDynamicComponentClassSimpleName(hostClsName,componentName,"$$");
 
                 try{
-                    ComponentsStorage.unregisterComponentInstance(dynamicComponentClsName);
+                    Log.e("ipc","------------------->开始注销宿主"+hostClsName+"的事件接收器"+componentName);
+                    ComponentsStorage.unregisterComponentInstance(componentName);
 
                 }catch (Exception e){
                     e.printStackTrace();
