@@ -9,7 +9,9 @@ import com.sad.basic.utils.assistant.LogUtils;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -21,7 +23,7 @@ public class ComponentsStorage {
 
     protected static final ConcurrentMap<String, Class<?>> COMPONENTS = new ConcurrentHashMap<>();
 
-    protected static final ConcurrentMap<String, List<IComponent>> COMPONENTS_INSTANCE = new ConcurrentHashMap<>();
+    protected static final ConcurrentMap<String,List<IComponent>> COMPONENTS_INSTANCE = new ConcurrentHashMap<>();
 
     public static int componentsClassSize(){
         return COMPONENTS.size();
@@ -31,7 +33,24 @@ public class ComponentsStorage {
     }
 
     public static List<IComponent> getComponentInstance(String name){
-        return COMPONENTS_INSTANCE.get(name);
+        List<IComponent> list=new ArrayList<>();
+        Iterator<Map.Entry<String,List<IComponent>>> iterator=COMPONENTS_INSTANCE.entrySet().iterator();
+        Log.e("ipc","------------------->开始遍历组件名");
+        while (iterator.hasNext()){
+            Map.Entry<String,List<IComponent>> entry=iterator.next();
+            String k=entry.getKey();
+            Log.e("ipc","------------------->遍历动态组件"+k);
+            String[] n=k.split("_instance_");
+            if (n!=null && n.length>1){
+                String ns=n[0];
+                if (ns.equals(name)){
+                    Log.e("ipc","------------------->动态组件"+k+"符合需求，添加到结果集");
+                    List<IComponent> components=entry.getValue();
+                    list.addAll(components);
+                }
+            }
+        }
+        return list;
     }
 
     protected static <C> Class<C> getAppComponentClass(String key) throws Exception{
@@ -103,7 +122,7 @@ public class ComponentsStorage {
         if (components!=null){
             COMPONENTS_INSTANCE.get(name).clear();
         }
-        //COMPONENTS_INSTANCE.remove(name);
+        COMPONENTS_INSTANCE.remove(name);
     }
 
     public static void clearComponentClass(){
@@ -117,7 +136,7 @@ public class ComponentsStorage {
         return COMPONENTS.keySet();
     }
 
-    protected static Collection<String> getComponentInstanceNames(){
+    public static Collection<String> getComponentInstanceNames(){
         return COMPONENTS_INSTANCE.keySet();
     }
 }

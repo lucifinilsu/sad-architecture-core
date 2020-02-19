@@ -4,6 +4,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //api 'com.google.auto.service:auto-service:latest.release'
 
+    //提交
     annotationProcessor 'com.google.auto.service:auto-service:latest.release'
     compileOnly'com.google.auto.service:auto-service:latest.release'
 

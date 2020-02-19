@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 public interface IComponent extends ICancelable,Serializable,Comparable<IComponent>{
 
+
     default public IResult onComponentResponse(IComponentRequest request,INotifier notifier) {
         return ResultImpl.asUnworked();
     };

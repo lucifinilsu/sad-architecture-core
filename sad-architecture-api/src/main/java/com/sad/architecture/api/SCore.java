@@ -164,7 +164,7 @@ public class SCore {
                     constructor.setAccessible(true);
                     AbstractDynamicComponent<O> dynamicComponent= (AbstractDynamicComponent<O>) constructor.newInstance(host,componentResponse);
                     //存入集合
-                    ComponentsStorage.registerComponentInstance(componentName,dynamicComponent);
+                    ComponentsStorage.registerComponentInstance(componentName+"_instance_"+host.hashCode(),dynamicComponent);
                     //检查粘性请求
                     supplementToSend(componentName);
                 }catch (Exception e){
@@ -199,7 +199,7 @@ public class SCore {
 
                 try{
                     Log.e("ipc","------------------->开始注销宿主"+hostClsName+"的事件接收器"+componentName);
-                    ComponentsStorage.unregisterComponentInstance(componentName);
+                    ComponentsStorage.unregisterComponentInstance(componentName+"_instance_"+host.hashCode());
 
                 }catch (Exception e){
                     e.printStackTrace();
