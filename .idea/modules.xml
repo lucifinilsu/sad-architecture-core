@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JavaDemo/JavaDemo.iml" filepath="$PROJECT_DIR$/JavaDemo/JavaDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app2/app2.iml" filepath="$PROJECT_DIR$/app2/app2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sad-architecture-annotation/sad-architecture-annotation.iml" filepath="$PROJECT_DIR$/sad-architecture-annotation/sad-architecture-annotation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sad-architecture-api/sad-architecture-api.iml" filepath="$PROJECT_DIR$/sad-architecture-api/sad-architecture-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sad-architecture-compiler/sad-architecture-compiler.iml" filepath="$PROJECT_DIR$/sad-architecture-compiler/sad-architecture-compiler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sad-architecture-core.iml" filepath="$PROJECT_DIR$/sad-architecture-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaDemo/JavaDemo.iml" filepath="$PROJECT_DIR$/JavaDemo/JavaDemo.iml" group="sad-architecture-core/JavaDemo" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="sad-architecture-core/app" />
+      <module fileurl="file://$PROJECT_DIR$/app2/app2.iml" filepath="$PROJECT_DIR$/app2/app2.iml" group="sad-architecture-core/app2" />
+      <module fileurl="file://$PROJECT_DIR$/sad-architecture-annotation/sad-architecture-annotation.iml" filepath="$PROJECT_DIR$/sad-architecture-annotation/sad-architecture-annotation.iml" group="sad-architecture-core/sad-architecture-annotation" />
+      <module fileurl="file://$PROJECT_DIR$/sad-architecture-api/sad-architecture-api.iml" filepath="$PROJECT_DIR$/sad-architecture-api/sad-architecture-api.iml" group="sad-architecture-core/sad-architecture-api" />
+      <module fileurl="file://$PROJECT_DIR$/sad-architecture-compiler/sad-architecture-compiler.iml" filepath="$PROJECT_DIR$/sad-architecture-compiler/sad-architecture-compiler.iml" group="sad-architecture-core/sad-architecture-compiler" />
+      <module fileurl="file://$PROJECT_DIR$/sad-architecture-core.iml" filepath="$PROJECT_DIR$/sad-architecture-core.iml" group="sad-architecture-core" />
     </modules>
   </component>
 </project>
