@@ -94,7 +94,7 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
 
     @Override
     public Bundle transitionBundle() {
-        return this.bundle;
+        return this.transitionBundle;
     }
 
     @Override

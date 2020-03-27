@@ -77,17 +77,18 @@ public abstract class AbstractAndroidActivityRouterProxyComponent implements ICo
 
             }
             Bundle bundle = params.routerParamsApiGetter().bundle();
+            intent.setExtrasClassLoader(targetActivityClass().getClassLoader());
             if (bundle!=null){
-                bundle.setClassLoader(targetActivityClass().getClassLoader());
+                //bundle.setClassLoader(targetActivityClass().getClassLoader());
                 intent.putExtras(bundle);
             }
-            intent.setExtrasClassLoader(targetActivityClass().getClassLoader());
+
             Uri uri=params.routerParamsApiGetter().uri();
             if (uri!=null){
                 intent.setData(uri);
             }
             String targetPackage=params.routerParamsApiGetter().targetPackage();
-            if (TextUtils.isEmpty(targetPackage)){
+            if (!TextUtils.isEmpty(targetPackage)){
                 intent.setPackage(targetPackage);
             }
 
