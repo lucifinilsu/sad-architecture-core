@@ -5,64 +5,86 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.IntDef;
+
 import com.sad.architecture.api.componentization.ipc.IStickyStrategy;
 import com.sad.architecture.api.utills.IDebugPrinter;
 
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * Created by Administrator on 2019/3/22 0022.
  */
 
-public interface IComponentRequest<R extends IComponentRequest<R>> extends IParcelable,IDebugPrinter,Serializable{
+public interface IComponentRequest<R extends IComponentRequest<R>> extends IParcelable, IDebugPrinter, Serializable {
+    int REQUEST_SOURCE_STANARD=0;
+    int REQUEST_SOURCE_STICKY=1;
+    @Retention(SOURCE)
+    @IntDef({REQUEST_SOURCE_STANARD,REQUEST_SOURCE_STICKY})
+    @interface RequestSource{
 
-     //final static long ID_NO_REQUEST=-86865161L;
+    }
 
-     R body(Object body);
+    //final static long ID_NO_REQUEST=-86865161L;
 
-     R id(long id);
 
-     R fromApp(String app);
+    R body(Object body);
 
-     R fromProcess(String process);
+    R id(long id);
 
-     R stickyStrategy(IStickyStrategy stickyStrategy);
+    R fromApp(String app);
 
-     R sourceLooper(Looper looper);//本地持有，不参与序列化
+    R fromProcess(String process);
 
-     Api api();
+    R stickyStrategy(IStickyStrategy stickyStrategy);
 
-    interface Api extends IBodyOwner{
+    R sourceLooper(Looper looper);//本地持有，不参与序列化
 
-         long id();
+    R requestSource(@RequestSource int requestSouce);
 
-         String fromApp();
+    Api api();
 
-         String fromProcess();
+    interface Api extends IBodyOwner {
 
-         IStickyStrategy stickyStrategy();
+        long id();
 
-         Looper looper();
+        String fromApp();
+
+        String fromProcess();
+
+        IStickyStrategy stickyStrategy();
+
+        Looper looper();
+
+        @RequestSource int requestSouce();
 
     }
 
     @Override
-    default void writeToParcel(Parcel dest, int flags){
+    default void writeToParcel(Parcel dest, int flags) {
         dest.writeString(api().fromApp());
         dest.writeString(api().fromProcess());
         dest.writeLong(api().id());
         //body的类型不定
         dest.writeValue(api().body());
         //dest.writeParcelable(api().body(),flags);
-        dest.writeParcelable(api().stickyStrategy(),flags);
+        dest.writeParcelable(api().stickyStrategy(), flags);
+        dest.writeInt(api().requestSouce());
     }
 
     @Override
-    default int describeContents(){return 0;};
+    default int describeContents() {
+        return 0;
+    }
+
+    ;
 
     @Override
-    default void readFromParcel(Parcel in){
-        Log.e("ipc","------------------->请求开始被反序列化");
+    default void readFromParcel(Parcel in) {
+        Log.e("ipc", "------------------->请求开始被反序列化");
         fromApp(in.readString());
         fromProcess(in.readString());
         id(in.readLong());
@@ -70,8 +92,10 @@ public interface IComponentRequest<R extends IComponentRequest<R>> extends IParc
         //body(in.readParcelable(getClass().getClassLoader()));
         stickyStrategy(in.readParcelable(getClass().getClassLoader()));
         ;
-    };
+        requestSource(in.readInt());
+    }
 
+    ;
 
 
 }

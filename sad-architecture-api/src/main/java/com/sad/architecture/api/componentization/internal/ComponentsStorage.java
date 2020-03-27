@@ -25,6 +25,8 @@ public class ComponentsStorage {
 
     protected static final ConcurrentMap<String,List<IComponent>> COMPONENTS_INSTANCE = new ConcurrentHashMap<>();
 
+    public static final String COMPONENT_INSTANCE_MAP_KEY_SEPARATOR="sca#bas%Scbkabf@_sad_@&";
+
     public static int componentsClassSize(){
         return COMPONENTS.size();
     }
@@ -40,7 +42,7 @@ public class ComponentsStorage {
             Map.Entry<String,List<IComponent>> entry=iterator.next();
             String k=entry.getKey();
             Log.e("ipc","------------------->遍历动态组件"+k);
-            String[] n=k.split("_instance_");
+            String[] n=k.split(ComponentsStorage.COMPONENT_INSTANCE_MAP_KEY_SEPARATOR);
             if (n!=null && n.length>1){
                 String ns=n[0];
                 if (ns.equals(name)){
@@ -123,6 +125,13 @@ public class ComponentsStorage {
             COMPONENTS_INSTANCE.get(name).clear();
         }
         COMPONENTS_INSTANCE.remove(name);
+    }
+    public static void unregisterComponentInstanceByHost(String name,String host){
+        /*List<IComponent> components=COMPONENTS_INSTANCE.get(name);
+        if (components!=null){
+            COMPONENTS_INSTANCE.get(name).clear();
+        }
+        COMPONENTS_INSTANCE.remove(name);*/
     }
 
     public static void clearComponentClass(){

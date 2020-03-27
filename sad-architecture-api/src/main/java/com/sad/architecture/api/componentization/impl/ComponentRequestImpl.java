@@ -25,6 +25,8 @@ public class ComponentRequestImpl implements IComponentRequest<ComponentRequestI
     private String fromProcess="";
     private IStickyStrategy stickyStrategy=new StickyStrategyWithDeadlineImpl(5000,5000,5000);
     private Looper looper;
+    private @RequestSource int requestSource=REQUEST_SOURCE_STANARD;
+
 
     public static IComponentRequest newInstance(){
         return new ComponentRequestImpl();
@@ -58,6 +60,12 @@ public class ComponentRequestImpl implements IComponentRequest<ComponentRequestI
     @Override
     public ComponentRequestImpl sourceLooper(Looper looper) {
         this.looper=looper;
+        return this;
+    }
+
+    @Override
+    public ComponentRequestImpl requestSource(int requestSouce) {
+        this.requestSource=requestSouce;
         return this;
     }
 
@@ -104,6 +112,11 @@ public class ComponentRequestImpl implements IComponentRequest<ComponentRequestI
     @Override
     public Looper looper() {
         return this.looper;
+    }
+
+    @Override
+    public int requestSouce() {
+        return this.requestSource;
     }
 
     @Override

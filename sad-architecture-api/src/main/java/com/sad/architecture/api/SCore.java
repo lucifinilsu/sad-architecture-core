@@ -164,7 +164,7 @@ public class SCore {
                     constructor.setAccessible(true);
                     AbstractDynamicComponent<O> dynamicComponent= (AbstractDynamicComponent<O>) constructor.newInstance(host,componentResponse);
                     //存入集合
-                    ComponentsStorage.registerComponentInstance(componentName+"_instance_"+host.hashCode(),dynamicComponent);
+                    ComponentsStorage.registerComponentInstance(componentName+ComponentsStorage.COMPONENT_INSTANCE_MAP_KEY_SEPARATOR+host.hashCode(),dynamicComponent);
                     //检查粘性请求
                     supplementToSend(componentName);
                 }catch (Exception e){
@@ -199,7 +199,8 @@ public class SCore {
 
                 try{
                     Log.e("ipc","------------------->开始注销宿主"+hostClsName+"的事件接收器"+componentName);
-                    ComponentsStorage.unregisterComponentInstance(componentName+"_instance_"+host.hashCode());
+                    ComponentsStorage.unregisterComponentInstance(componentName+ComponentsStorage.COMPONENT_INSTANCE_MAP_KEY_SEPARATOR+host.hashCode());
+
 
                 }catch (Exception e){
                     e.printStackTrace();
@@ -243,22 +244,12 @@ public class SCore {
                     Log.e("ipc","------------------->"+componentName+"开始补发粘性事件，requestId="+sticky.getRequest().api().id());
                     //由于回调环境存在不确定性,为防止内存溢出，所以补发的信息不再监听回调
                     try {
-                        /*RequesterImpl.newInstance(
-                                ComponentRequestImpl.ComponentRequestLocalImpl.<Bundle>newInstance(request.api().body())
-                                        .id(request.api().id())
-                                        .fromApp(request.api().fromApp())
-                                        .fromProcess(request.api().fromProcess())
-                                        .stickyStrategy(request.api().stickyStrategy())
-                        )
-                                .targetLocal(TargetsLocal.newBuilder().add(componentName).build())
-                                .visit(factory)
-                                .launchNode()
-                                .submit();*/
                         RequesterImpl.newInstance(
                                 ComponentRequestImpl.newInstance()
                                         .body(request.api().body())
                                         .id(request.api().id())
                                         .fromApp(request.api().fromApp())
+                                        .requestSource(IComponentRequest.REQUEST_SOURCE_STICKY)
                                         .fromProcess(request.api().fromProcess())
                                         .stickyStrategy(request.api().stickyStrategy())
                         )
@@ -289,12 +280,12 @@ public class SCore {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }*/
+
                 }
                 else {
                     Log.e("ipc","------------------->Local级别组件"+componentName+"的粘性事件已经失效,来自进程："+request.api().fromProcess());
+                    iterator.remove();
                 }
-
-                iterator.remove();
 
             } catch (Exception e) {
                 e.printStackTrace();

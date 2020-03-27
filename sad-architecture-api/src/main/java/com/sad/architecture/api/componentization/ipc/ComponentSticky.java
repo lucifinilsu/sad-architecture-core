@@ -3,12 +3,15 @@ package com.sad.architecture.api.componentization.ipc;
 import com.sad.architecture.api.componentization.IComponentInstanceFactory;
 import com.sad.architecture.api.componentization.IComponentRequest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2019/4/3 0003.
  */
 
 public class ComponentSticky {
-
+    private List<String> processed=new ArrayList<>();
     private IComponentRequest request;
     private IComponentInstanceFactory factory;
     //private @IComponentRequest.RequestModeIntDef int requestMode=IComponentRequest.CALLER;
