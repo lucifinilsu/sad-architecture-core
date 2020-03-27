@@ -172,7 +172,9 @@ public class InvokerImpl implements IInvoker {
                     ) {
                 List subscribers=visitorApi.require(sn);
                 Log.e("ipc","------------------->组件实例仓库中name="+sn+"的实例组："+subscribers);
-                if (subscribers==null){
+                if (subscribers==null || subscribers.isEmpty()){
+                    //sn对应的实例组不存在，有可能是因为名为sn的组件尚未注册进动态订阅者集合里，则根据粘性策略做相应选择
+                    cacheSticky(request,visitorApi.factory(),sn);
                     continue;
                 }
                 for (Object subscriber:subscribers
@@ -183,13 +185,10 @@ public class InvokerImpl implements IInvoker {
                     if (subscriber!=null){
                         components.add((IComponent) subscriber);
                     }
-                    else {
+                    /*else {
                         //名为sn的组件尚未注册进动态订阅者集合里，则根据粘性策略做相应选择
                         cacheSticky(request,visitorApi.factory(),sn);
-                    /*if (this.requestMode==POSTER){
-
                     }*/
-                    }
 
                 }
             }

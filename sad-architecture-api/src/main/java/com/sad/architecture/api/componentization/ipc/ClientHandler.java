@@ -69,6 +69,7 @@ public class ClientHandler extends Handler{
         Log.e("ipc","------------------->Bundle正常存在，开始处理");
         //首先确定一下，是否是全部执行
         /*Serializable s_request=bundle.getSerializable(IPCConst.BUNDLE_KEY_COMPONENT_REQUEST);*/
+        bundle.setClassLoader(getClass().getClassLoader());
         Parcelable s_request=bundle.getParcelable(IPCConst.BUNDLE_KEY_COMPONENT_REQUEST);
         Parcelable s_target=bundle.getParcelable(IPCConst.BUNDLE_KEY_COMPONENT_TARGETS);
         Serializable s_factory=bundle.getSerializable(IPCConst.BUNDLE_KEY_COMPONENT_FACTORY);
