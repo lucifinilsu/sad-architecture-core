@@ -43,7 +43,7 @@ public class MainActivity extends BaseTestActivity {
         //tv.setText(stringFromJNI());
         try{
 
-            IUIDesign design=SCore.exposerPostedInterface("UI1");
+            IUIDesign design=SCore.exposerCalledInterface("UI1");
             design.design(this);
         }catch (Exception e){
             e.printStackTrace();

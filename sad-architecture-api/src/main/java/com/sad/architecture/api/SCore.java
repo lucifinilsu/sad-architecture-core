@@ -118,12 +118,12 @@ public class SCore {
                 .require(name)
                 ;
         if (icList == null || icList.isEmpty()) {
-            throw new Exception("components named '"+name+"' you called is not found");
+            throw new Exception("components named '"+name+"' you posted is not found");
         }
         return icList;
     }
-    public static <IC> IC exposerPostedInterface(String name)throws Exception{
-        return exposerCalledInterface(name,null);
+    public static <IC> List<IC> exposerPostedInterface(String name)throws Exception{
+        return exposerPostedInterface(name,null);
     }
 
 
@@ -284,8 +284,8 @@ public class SCore {
                 }
                 else {
                     Log.e("ipc","------------------->Local级别组件"+componentName+"的粘性事件已经失效,来自进程："+request.api().fromProcess());
-                    iterator.remove();
                 }
+                iterator.remove();
 
             } catch (Exception e) {
                 e.printStackTrace();

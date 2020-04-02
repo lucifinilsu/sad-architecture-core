@@ -1,6 +1,7 @@
 package com.sad.architecture.api.componentization;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.sad.architecture.annotation.AppComponent;
 import com.sad.architecture.api.componentization.impl.Result;
@@ -13,6 +14,7 @@ import java.io.Serializable;
  */
 
 public interface IComponent extends ICancelable,Serializable,Comparable<IComponent>{
+
 
 
     default public IResult onComponentResponse(IComponentRequest request,INotifier notifier) {

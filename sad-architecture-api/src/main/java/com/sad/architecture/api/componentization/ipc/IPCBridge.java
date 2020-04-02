@@ -26,6 +26,31 @@ import java.util.List;
  * Created by Administrator on 2019/3/25 0025.
  */
 
+/**
+ *
+ * 主要逻辑：每个接入本框架的App在主进程初始化后，都会启动事件分发服务IPCMessageDispatcherService，注意这个服务只存在于主进程。
+ * 主进程持有：一个动态服务端信使和两个关键的信使集合：
+ * 一、事件分发服务里持有一个关键静态集合：ServerHandler.clientMessengerMap。这个集合用于存储来自本App各个进程的信使clientMessenger（包括主进程本身的）。
+ * 二、IPCStorage.SERVER_MESSENGERS集合持有来自不同App主进程的服务端信使（包括主进程本身的）。
+ * 三、事件分发服务里的服务端信使，这个信使只有一个使用途径：下面会提到。
+ *
+ * 注册的主要步骤：
+ * 首先，主进程初始化，这里做了两件事：
+ * 一、绑定式启动事件分发服务，将上面提到的服务端信使存储进IPCStorage.SERVER_MESSENGERS备用，实际上除了注册之外自身用不到
+ * 二、如果服务绑定成功：新建一条message,用replyTo的方式携带自己的静态客户端信使（clientMessenger）通过IPCStorage.SERVER_MESSENGERS里存储的自己的服务端信使发送给ServerHandler，
+ * ServerHandler接收到message后取出clientMessenger存进上面说的ServerHandler.clientMessengerMap。。。好像多此一举（其实直接put就行），但实际上这是为了统一主进程
+ * 和子进程的注册过程而妥协的。
+ * 三、如果服务绑定失败：删除IPCStorage.SERVER_MESSENGERS存储的自身的服务端信使，然后递归注册方法（有点变态，后续需要优化）。
+ * 然后，子进程初始化，这里也做了两件事：
+ * 一、绑定主进程的事件分发服务，成功后拿到主进程给的服务端信使，存储进自己的IPCStorage.SERVER_MESSENGERS备用，
+ * 二、和主进程一样，用主进程给的服务端信使把自己的clientMessenger交给主进程，这里凸显了一点服务端信使永远是主进程给的，不管是自己App给的还是其他App给的。
+ * 三、一样，绑定失败：删除IPCStorage.SERVER_MESSENGERS存储的相应的服务端信使，然后递归。
+ *
+ * 通过上述的注册我们可以总结出：所有要跨进程的请求，本质上都是从当前进程的IPCStorage.SERVER_MESSENGERS取出目标App的服务端信使作为发射器，发送message，交给目标App主进程的
+ * ServerHandler处理分发，在ServerHandler里解析message，根据解析出的Target里含有的目标process信息，再在ServerHandler.clientMessengerMap里找到相应的之前其他子进程注册进来的
+ * clientMessenger，再进行二次分发。后面的事情就很明确了：最终由目标进程的ClientHandler处理事件
+ *
+ */
 public class IPCBridge {
     private static ClientHandler clientHandler=new ClientHandler();//本进程客户端信息处理器
     protected static Messenger clientMessenger = new Messenger(clientHandler);//本地客户端信使
@@ -38,6 +63,7 @@ public class IPCBridge {
     }
     public static boolean registerCurrClientMessengerToMainProcessServer(){
         String app= ContextHolder.context.getPackageName();
+        //下面的连接主要是针对当前是非主进程时将自身
         ServiceConnector.connect(app, new IServiceConnectionCallback() {
             @Override
             public void onConnected(ComponentName name, Messenger serverMessenger) {
@@ -183,7 +209,7 @@ public class IPCBridge {
         }
 
         Messenger serverMessenger=IPCStorage.SERVER_MESSENGERS.get(targetApp);
-        if (serverMessenger==null){
+        if (serverMessenger==null || serverMessenger.getBinder().pingBinder()){
             //首先尝试连接目标App,如果失败则根据粘性策略进行缓存
             boolean isConnected=new ServiceConnector().connect(targetApp, new IServiceConnectionCallback() {
                 @Override
@@ -198,7 +224,7 @@ public class IPCBridge {
                 }
             });
             if (!isConnected){
-                //根据粘性策略开始存储
+                //出于某些原因，目标app无法连接（例如，app包名不存在），则根据粘性策略开始存储
                 IStickyStrategy sticky=request.api().stickyStrategy();
                 if (sticky!=null){
                     Message messageToBeSent=createMessage(request,targetProcess,factory,callback);

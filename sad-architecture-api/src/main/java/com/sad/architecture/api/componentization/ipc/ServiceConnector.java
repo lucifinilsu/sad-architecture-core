@@ -36,7 +36,7 @@ public class ServiceConnector {
         return ContextHolder.context.bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                //做该做的事情
+                //做该做的事情,将远程的binder包装成远程信使供本地存储
                 Messenger serverMessenger = new Messenger(service);
                 if (connectionCallback!=null){
                     connectionCallback.onConnected(name,serverMessenger);
