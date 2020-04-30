@@ -20,4 +20,5 @@ public @interface AppComponent {
 
     int threadEnvironment() default TheradEnvironment.MAIN;
 
+    String path() default "";
 }

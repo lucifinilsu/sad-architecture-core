@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.net.URI;
 
 /**
  * Created by Administrator on 2019/3/22 0022.
@@ -17,4 +18,6 @@ public @interface ComponentResponse{
     int priority() default 1;
 
     String componentName();
+
+    String path() default "";
 }
