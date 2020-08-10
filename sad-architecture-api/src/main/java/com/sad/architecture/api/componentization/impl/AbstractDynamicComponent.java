@@ -48,6 +48,11 @@ public abstract class AbstractDynamicComponent<H> implements IComponent{
                 public int threadEnvironment() {
                     return componentResponse.threadEnvironment();
                 }
+
+                @Override
+                public String path() {
+                    return "";
+                }
             };
         }
         return appComponent;

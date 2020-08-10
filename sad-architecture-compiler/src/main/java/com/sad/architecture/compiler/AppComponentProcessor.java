@@ -1,6 +1,10 @@
 package com.sad.architecture.compiler;
 
 import com.google.auto.service.AutoService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sad.architecture.annotation.AppComponent;
 import com.sad.architecture.annotation.Constant;
 import com.squareup.javapoet.ClassName;
@@ -9,7 +13,10 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
+import java.io.File;
 import java.util.Set;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -23,6 +30,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.tools.StandardLocation;
 
 /**
  * Created by Administrator on 2019/4/8 0008.
@@ -43,7 +51,7 @@ public class AppComponentProcessor extends AbsSADProcessor{
         super.init(env);
         moduleName=env.getOptions().get("moduleName").replaceAll("[^0-9a-zA-Z_]+", "");
         isLog=Boolean.valueOf(env.getOptions().getOrDefault("log","false"));
-        info("==========>hhhh");
+        //info("==========>hhhh");
     }
 
     @Override
@@ -79,18 +87,26 @@ public class AppComponentProcessor extends AbsSADProcessor{
                     note="请检查"+serviceElementIntf.getSimpleName()+"是否实现了IAppCompoent接口,若否则无法注册:";
                 }*/
                 //编辑注册方法的代码块
-                generateServiceRigesterCodeBlock(serviceElementIntf,note);
+                //generateServiceRigesterCodeBlock(serviceElementIntf,note);
+                try {
+                    registerERM(serviceElementIntf);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         if (roundEnv.processingOver()){
             //结束解析，生成注册类
-            generateServiceRigester();
+            //generateServiceRigester();
         }
         return false;
     }
 
-
+    /**
+     * 废弃，由assets注册表代ERM替
+     */
+    @Deprecated
     protected void generateServiceRigester(){
         try {
             TypeSpec.Builder tb=TypeSpec.classBuilder("ModuleComponentRegister$$"+moduleName)
@@ -111,7 +127,10 @@ public class AppComponentProcessor extends AbsSADProcessor{
             e.printStackTrace();
         }
     }
-
+    /**
+     * 废弃，由assets注册表ERM代替
+     */
+    @Deprecated
     protected void generateServiceRigesterCodeBlock(TypeElement serviceRegisterElement,String note){
         AppComponent appService =serviceRegisterElement.getAnnotation(AppComponent.class);
 
@@ -129,6 +148,54 @@ public class AppComponentProcessor extends AbsSADProcessor{
                 ClassName.get(elementUtils.getPackageOf(serviceRegisterElement).toString(),serviceRegisterElement.getSimpleName().toString())
         ).build()
         ;
+    }
+
+
+    private final static String ASSETS_DIR="src\\main\\assets\\";
+    private final static String ERM_DIR="erm";
+    private final static String ERM_FILENAME="erm.json";
+    private boolean isFirstRegister=true;
+    private void registerERM(Element element) throws Exception{
+        AppComponent componentAnnotation =element.getAnnotation(AppComponent.class);
+        if (componentAnnotation!=null){
+            String name=componentAnnotation.name();
+            String cls=((TypeElement)element).getQualifiedName().toString();
+            String outPath=filer.getResource(StandardLocation.SOURCE_OUTPUT,"","xxx").getName();
+            String[] paths=outPath.split("build");
+            String rootPath=paths[0];
+            StringBuilder sbERM=new StringBuilder();
+            sbERM.append(rootPath+ File.separator)
+                    .append(ASSETS_DIR)
+                    .append(ERM_DIR)
+                    .append(File.separator)
+                    .append(moduleName)
+            ;
+            if (isFirstRegister){
+
+                File f=new File(sbERM.toString());
+                if (f.exists()){
+                    org.apache.commons.io.FileUtils.deleteDirectory(f);
+                }
+                isFirstRegister=false;
+            }
+            String ermPath=sbERM.append(File.separator).append(ERM_FILENAME).toString();
+            File ermFile=new File(ermPath);
+            File ermParentDir=ermFile.getParentFile();
+            if ((ermParentDir.exists() && ermParentDir.isDirectory()) || ermParentDir.mkdirs()){
+                String jsonString="{}";
+                if (ermFile.exists()){
+                    jsonString=FileUtils.readFileToString(ermFile,"utf-8");
+                }
+                GsonBuilder gsonBuilder=new GsonBuilder();
+                gsonBuilder.setPrettyPrinting();
+                gsonBuilder.disableHtmlEscaping();
+                Gson gson= gsonBuilder.create();
+                JsonObject jsonObject=JsonParser.parseString(jsonString).getAsJsonObject();
+                jsonObject.addProperty(name,cls);
+                jsonString=gson.toJson(jsonObject);
+                FileUtils.write(ermFile,jsonString,"utf-8");
+            }
+        }
     }
 
 }

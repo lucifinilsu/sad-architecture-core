@@ -58,7 +58,7 @@ dependencies {
     api 'androidx.annotation:annotation:'+ rootProject.ext.supportVersion
     //api 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
     //compile project(':sad-architecture-annotation')
-    api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.0'
+    api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.2'
     api 'androidx.lifecycle:lifecycle-common-java8:latest.release'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:latest.release'

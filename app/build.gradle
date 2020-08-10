@@ -69,8 +69,8 @@ dependencies {
     api 'com.sad.core.appgo:sad-appgo-api:latest.release'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     api project(':sad-architecture-api')
-    annotationProcessor 'com.sad.architecture.compiler:sad-architecture-compiler:latest.release'
-    //annotationProcessor project(':sad-architecture-compiler')
+    //annotationProcessor 'com.sad.architecture.compiler:sad-architecture-compiler:latest.release'
+    annotationProcessor project(':sad-architecture-compiler')
     annotationProcessor 'com.google.auto.service:auto-service:latest.release'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:latest.release'

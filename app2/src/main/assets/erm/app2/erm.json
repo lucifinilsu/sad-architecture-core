@@ -1,0 +1,7 @@
+{
+  "xxx": "com.sad.architecture.core.demo2.App2C",
+  "f-test": "com.sad.architecture.core.demo2.Fragment_Test",
+  "ttt": "com.sad.architecture.core.demo2.ObjectTest",
+  "App2AMainActivity": "com.sad.architecture.core.demo2.ActivityRouteProxy$$com$$sad$$architecture$$core$$demo2$$MainActivity$$App2AMainActivity",
+  "App2Activity2": "com.sad.architecture.core.demo2.ActivityRouteProxy$$com$$sad$$architecture$$core$$demo2$$SecondActivity$$App2Activity2"
+}

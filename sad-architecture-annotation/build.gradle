@@ -4,6 +4,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'org.apache.commons:commons-lang3:latest.release'
     api 'org.apache.commons:commons-collections4:latest.release'
+    //兼容阿里注解1.0.3版本
+    //api 'com.alibaba:arouter-annotation:1.0.3'
 }
 
 sourceCompatibility = "1.8"
