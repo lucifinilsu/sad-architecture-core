@@ -11,6 +11,9 @@ import android.util.Log;
 import com.sad.architecture.api.componentization.IComponentCallback;
 import com.sad.architecture.api.componentization.IComponentResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 /**
@@ -21,9 +24,15 @@ public class ResultReceiverHandler extends Handler {
 
 
     private IComponentCallback clientCallback;
+    private JSONObject testUnSerizabaleData=new JSONObject();
 
     private ResultReceiverHandler(IComponentCallback clientCallback){
         this.clientCallback=clientCallback;
+        try {
+            this.testUnSerizabaleData.put("test","gogogo");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     public static Handler newInstance(IComponentCallback clientCallback){
         return new ResultReceiverHandler(clientCallback);
@@ -37,6 +46,11 @@ public class ResultReceiverHandler extends Handler {
             case IPCConst.POST_COMPONENT_RESPONSE:
                 //发送端收到接收端的回执
                 Log.e("ipc","------------------->接收到了回执");
+                try {
+                    Log.e("ipc","------------------->测试非序列化数据保存："+testUnSerizabaleData.toString(4));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 callback(msg);
                 break;
             case IPCConst.REGISTER_CLIENT_MESSENGER_RESPONSE:

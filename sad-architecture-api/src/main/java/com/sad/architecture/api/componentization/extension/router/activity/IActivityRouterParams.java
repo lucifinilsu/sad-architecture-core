@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+
 import com.sad.architecture.api.componentization.extension.router.basic.IRouterParams;
 import com.sad.architecture.api.utills.IDebugPrinter;
 
@@ -23,6 +26,10 @@ public interface IActivityRouterParams<IR extends IActivityRouterParams<IR>> ext
 
     IR forResult(boolean forResult);
 
+    IR forResultByCallback(boolean forResultByCallback);
+
+    IR resultCallback(ActivityResultCallback<ActivityResult> resultCallback);
+
     @Override
     IRouterActivityParamsApiGetter routerParamsApiGetter();
 
@@ -37,6 +44,10 @@ public interface IActivityRouterParams<IR extends IActivityRouterParams<IR>> ext
         int requestCode();
 
         boolean forResult();
+
+        boolean forResultByCallback();
+
+        ActivityResultCallback<ActivityResult> resultCallback();
 
     }
 
@@ -91,6 +102,8 @@ public interface IActivityRouterParams<IR extends IActivityRouterParams<IR>> ext
         dest.writeBundle(routerParamsApiGetter().transitionBundle());
         dest.writeInt(routerParamsApiGetter().forResult()?0:1);
         dest.writeInt(routerParamsApiGetter().requestCode());
+        dest.writeInt(routerParamsApiGetter().forResultByCallback()?0:1);
+        dest.writeValue(routerParamsApiGetter().resultCallback());
     }
 
     @Override
@@ -100,6 +113,8 @@ public interface IActivityRouterParams<IR extends IActivityRouterParams<IR>> ext
         bundle(source.readBundle());
         forResult(source.readInt()==0);
         requestCode(source.readInt());
+        forResultByCallback(source.readInt()==0);
+        resultCallback((ActivityResultCallback<ActivityResult>) source.readValue(getClass().getClassLoader()));
     }
 
     @Override

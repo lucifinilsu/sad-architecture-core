@@ -1,7 +1,7 @@
 package com.sad.architecture.core.demo;
 
+import android.app.Fragment;
 import android.net.Uri;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;

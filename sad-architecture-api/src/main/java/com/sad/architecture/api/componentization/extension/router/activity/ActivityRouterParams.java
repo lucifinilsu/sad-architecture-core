@@ -6,6 +6,9 @@ import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+
 import com.sad.architecture.api.componentization.IComponentRequest;
 import com.sad.architecture.api.componentization.extension.router.basic.AbstractRouterParamsImpl;
 import com.sad.architecture.api.componentization.impl.ComponentRequestImpl;
@@ -28,6 +31,8 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
     protected Bundle transitionBundle;
     protected boolean forResult=false;
     protected int requestCode=0;
+    protected boolean forResultByCallback=false;
+    protected ActivityResultCallback<ActivityResult> resultCallback;
 
     private ActivityRouterParams(){}
 
@@ -61,6 +66,18 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
     @Override
     public ActivityRouterParams forResult(boolean forResult) {
         this.forResult=forResult;
+        return this;
+    }
+
+    @Override
+    public ActivityRouterParams forResultByCallback(boolean forResultByCallback) {
+        this.forResultByCallback=forResultByCallback;
+        return this;
+    }
+
+    @Override
+    public ActivityRouterParams resultCallback(ActivityResultCallback<ActivityResult> resultCallback) {
+        this.resultCallback=resultCallback;
         return this;
     }
 
@@ -105,6 +122,16 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
     @Override
     public boolean forResult() {
         return this.forResult;
+    }
+
+    @Override
+    public boolean forResultByCallback() {
+        return this.forResultByCallback;
+    }
+
+    @Override
+    public ActivityResultCallback<ActivityResult> resultCallback() {
+        return this.resultCallback;
     }
 
     public static final Parcelable.Creator<ActivityRouterParams> CREATOR = new Creator<ActivityRouterParams>()
