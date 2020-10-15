@@ -8,6 +8,7 @@ import android.os.Parcelable;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 
 import com.sad.architecture.api.componentization.IComponentRequest;
 import com.sad.architecture.api.componentization.extension.router.basic.AbstractRouterParamsImpl;
@@ -32,7 +33,7 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
     protected boolean forResult=false;
     protected int requestCode=0;
     protected boolean forResultByCallback=false;
-    protected ActivityResultCallback<ActivityResult> resultCallback;
+    protected ActivityResultLauncher activityResultLauncher;
 
     private ActivityRouterParams(){}
 
@@ -76,10 +77,11 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
     }
 
     @Override
-    public ActivityRouterParams resultCallback(ActivityResultCallback<ActivityResult> resultCallback) {
-        this.resultCallback=resultCallback;
+    public ActivityRouterParams activityResultLauncher(ActivityResultLauncher launcher) {
+        this.activityResultLauncher=launcher;
         return this;
     }
+
 
     @Override
     public IActivityRouterParams.IRouterActivityParamsApiGetter routerParamsApiGetter() {
@@ -130,8 +132,8 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
     }
 
     @Override
-    public ActivityResultCallback<ActivityResult> resultCallback() {
-        return this.resultCallback;
+    public ActivityResultLauncher activityResultLauncher() {
+        return this.activityResultLauncher;
     }
 
     public static final Parcelable.Creator<ActivityRouterParams> CREATOR = new Creator<ActivityRouterParams>()

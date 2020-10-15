@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultCaller;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,7 +125,7 @@ public abstract class AbstractAndroidActivityRouterProxyComponent implements ICo
                 int requestCode=params!=null?params.routerParamsApiGetter().requestCode():-99999;
                 Bundle transitionBundle=params!=null?params.routerParamsApiGetter().transitionBundle():null;
                 boolean isForResultByCallback=(params!=null && params.routerParamsApiGetter().forResultByCallback());
-                ActivityResultCallback<ActivityResult> resultActivityResultCallback=params!=null?params.routerParamsApiGetter().resultCallback():null;
+                ActivityResultLauncher activityResultLauncher=params!=null?params.routerParamsApiGetter().activityResultLauncher():null;
 
                 if (!(context instanceof Activity)){
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -137,10 +138,8 @@ public abstract class AbstractAndroidActivityRouterProxyComponent implements ICo
                 }
                 else{
                     if (isForResult){
-                        if (isForResultByCallback && resultActivityResultCallback!=null){
-                            ((ActivityResultCaller)context)
-                                    .registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),resultActivityResultCallback)
-                                    .launch(intent);
+                        if (isForResultByCallback && activityResultLauncher!=null){
+                            activityResultLauncher.launch(intent);
                         }
                         else {
                             ActivityCompat.startActivityForResult((Activity) context,intent,requestCode,transitionBundle);
