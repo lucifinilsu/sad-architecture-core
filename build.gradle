@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:latest.release'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:latest.release'
         
@@ -67,4 +67,4 @@ task clean(type: Delete) {
 
 //tasks.findByPath(":sad-architecture-api:androidJavadocs").enabled = false
 
-tasks.getByPath(":sad-architecture-api:javadoc").enabled = false
+tasks.getByPath(":sad-architecture-compiler:javadoc").enabled = false

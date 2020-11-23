@@ -184,7 +184,7 @@ public class AppComponentProcessor extends AbsSADProcessor{
             if ((ermParentDir.exists() && ermParentDir.isDirectory()) || ermParentDir.mkdirs()){
                 String jsonString="{}";
                 if (ermFile.exists()){
-                    jsonString=FileUtils.readFileToString(ermFile,"utf-8");
+                    jsonString=FileUtils.fileRead(ermPath);//FileUtils.readFileToString(ermFile,"utf-8");
                 }
                 GsonBuilder gsonBuilder=new GsonBuilder();
                 gsonBuilder.setPrettyPrinting();
@@ -193,7 +193,7 @@ public class AppComponentProcessor extends AbsSADProcessor{
                 JsonObject jsonObject=JsonParser.parseString(jsonString).getAsJsonObject();
                 jsonObject.addProperty(name,cls);
                 jsonString=gson.toJson(jsonObject);
-                FileUtils.write(ermFile,jsonString,"utf-8");
+                FileUtils.fileWrite(ermPath,jsonString);
             }
         }
     }
