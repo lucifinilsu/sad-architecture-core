@@ -48,7 +48,7 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 }
-//apply from: rootProject.file('uploadbintrayJceneterScript_Api.gradle')
+apply from: rootProject.file('uploadbintrayJceneterScript_Api.gradle')
 
 dependencies {
     /*implementation gradleApi()

@@ -8,7 +8,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import androidx.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponentCallback;
 import com.sad.architecture.api.componentization.IComponentInstanceFactory;
@@ -68,13 +68,13 @@ public class IPCBridge {
             @Override
             public void onConnected(ComponentName name, Messenger serverMessenger) {
                 registerServerMessenger(app,serverMessenger);
-                Log.e("ipc","------------------->已经连接到本App目标服务："+app);
+                LogPrinterUtils.logE("ipc","------------------->已经连接到本App目标服务："+app);
                 registerClientMessengerToApp(app);
             }
 
             @Override
             public void onDisconnected(ComponentName name) {
-                Log.e("ipc","------------------->本App目标服务的连接断开："+app);
+                LogPrinterUtils.logE("ipc","------------------->本App目标服务的连接断开："+app);
                 unregisterServerMessenger(name.getPackageName());
                 //serverMessenger=null;
                 registerCurrClientMessengerToMainProcessServer();
@@ -95,10 +95,10 @@ public class IPCBridge {
     private static void supplementToSend(String app,Messenger serverMessenger){
         //先检测
 
-        Log.e("ipc","------------------->开始检测App级别"+app+"是否存有粘性事件");
+        LogPrinterUtils.logE("ipc","------------------->开始检测App级别"+app+"是否存有粘性事件");
         List<Message> messageList= IPCStorage.REMOTE_APP_STICKY_MESSAGES.get(app);
         if (messageList==null){
-            Log.e("ipc","------------------->App级别"+app+"无待发送的粘性事件列表");
+            LogPrinterUtils.logE("ipc","------------------->App级别"+app+"无待发送的粘性事件列表");
             return;
         }
         Iterator<Message> iterator=messageList.iterator();
@@ -120,7 +120,7 @@ public class IPCBridge {
                 }
                 boolean isValid=sticky.isValid(IPCStickyEnvLevel.APP,app,"","");
                 if (isValid){
-                    Log.e("ipc","------------------->"+app+"开始补发粘性事件，requestId="+request.api().id());
+                    LogPrinterUtils.logE("ipc","------------------->"+app+"开始补发粘性事件，requestId="+request.api().id());
                     serverMessenger.send(message);
                 }
 
@@ -147,7 +147,7 @@ public class IPCBridge {
             Messenger clientMessenger=new Messenger(clientHandler);*/
             message.replyTo=clientMessenger;
             serverMessenger.send(message);
-            Log.e("ipc","------------------->向本App服务端操作客户端信使，操作类型："+message.what);
+            LogPrinterUtils.logE("ipc","------------------->向本App服务端操作客户端信使，操作类型："+message.what);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -325,7 +325,7 @@ public class IPCBridge {
             IComponentCallback callback
     ){
         Bundle bundle = new Bundle();
-        Log.e("ipc","------------------->将远程请求生产message:"+request.outputContent());
+        LogPrinterUtils.logE("ipc","------------------->将远程请求生产message:"+request.outputContent());
         //bundle.setClassLoader(getClass().getClassLoader());
         bundle.putParcelable(IPCConst.BUNDLE_KEY_COMPONENT_REQUEST,request);
         bundle.putParcelable(IPCConst.BUNDLE_KEY_COMPONENT_TARGETS,targetProcess);
@@ -351,7 +351,7 @@ public class IPCBridge {
             IComponentCallback callback){
 
         try {
-            Log.e("ipc","------------------->马上调用主服务端");
+            LogPrinterUtils.logE("ipc","------------------->马上调用主服务端");
             serverMessenger.send(createMessage(request,targetProcess,factory,callback));
         }catch (Exception e){
             e.printStackTrace();

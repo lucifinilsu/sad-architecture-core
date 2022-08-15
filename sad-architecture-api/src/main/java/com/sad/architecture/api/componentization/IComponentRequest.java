@@ -3,7 +3,7 @@ package com.sad.architecture.api.componentization;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import androidx.annotation.IntDef;
 
@@ -84,7 +84,7 @@ public interface IComponentRequest<R extends IComponentRequest<R>> extends IParc
 
     @Override
     default void readFromParcel(Parcel in) {
-        Log.e("ipc", "------------------->请求开始被反序列化");
+        LogPrinterUtils.logE("ipc", "------------------->请求开始被反序列化");
         fromApp(in.readString());
         fromProcess(in.readString());
         id(in.readLong());

@@ -1,7 +1,7 @@
 package com.sad.architecture.api.componentization;
 
 import android.os.Parcel;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -40,11 +40,11 @@ public interface ITargets<IT extends ITargets<IT>> extends Serializable,IParcela
 
     @Override
     default void readFromParcel(Parcel in){
-        Log.e("ipc","------------------->目标反序列化");
+        LogPrinterUtils.logE("ipc","------------------->目标反序列化");
         HashMap<String,ITargetLocal> targetLocalMap = (HashMap<String, ITargetLocal>) in.readSerializable();//in.readHashMap(HashMap.class.getClassLoader());
         addProcesses(targetLocalMap);
        /* in.readMap(api().processes(),getClass().getClassLoader());*/
-        Log.e("ipc","------------------->本都目标Map反序列化："+targetLocalMap);
+        LogPrinterUtils.logE("ipc","------------------->本都目标Map反序列化："+targetLocalMap);
         allProcess(in.readInt()==0);
     };
 

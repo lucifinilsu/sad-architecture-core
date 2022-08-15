@@ -194,7 +194,8 @@ public class AppComponentProcessor extends AbsSADProcessor{
                 JsonObject jsonObject=JsonParser.parseString(jsonString).getAsJsonObject();
                 jsonObject.addProperty(name,cls);
                 jsonString=gson.toJson(jsonObject);
-                FileUtils.writeStringToFile(ermFile,jsonString,"utf-8");
+                FileUtils//.fileWrite(ermPath,jsonString);
+                        .writeStringToFile(ermFile,jsonString,"utf-8");
             }
         }
     }

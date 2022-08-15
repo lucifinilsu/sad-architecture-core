@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.Parcelable;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponentCallback;
 import com.sad.architecture.api.componentization.IComponentInstanceFactory;
@@ -41,7 +41,7 @@ public class ClientHandler extends Handler{
         switch (opt){
             case IPCConst.POST_REQUEST:
                 //接收端收到发送端的请求，开始处理
-                Log.e("ipc","------------------->接收端收到发送端的请求，开始处理");
+                LogPrinterUtils.logE("ipc","------------------->接收端收到发送端的请求，开始处理");
                 dispatchEventToLocal(Message.obtain(msg), InternalRelayComponentCallback.newInstance(replyMessenger));
                 break;
             default:
@@ -66,7 +66,7 @@ public class ClientHandler extends Handler{
         if (bundle==null){
             return;
         }
-        Log.e("ipc","------------------->Bundle正常存在，开始处理");
+        LogPrinterUtils.logE("ipc","------------------->Bundle正常存在，开始处理");
         //首先确定一下，是否是全部执行
         /*Serializable s_request=bundle.getSerializable(IPCConst.BUNDLE_KEY_COMPONENT_REQUEST);*/
         bundle.setClassLoader(getClass().getClassLoader());
@@ -77,7 +77,7 @@ public class ClientHandler extends Handler{
         if (s_request==null || s_target==null){
             return;
         }
-        Log.e("ipc","------------------->请求和目标正常存在，开始处理");
+        LogPrinterUtils.logE("ipc","------------------->请求和目标正常存在，开始处理");
         IComponentRequest request= (IComponentRequest) s_request;
         ITargets targetProcessSpec= (ITargets) s_target;
         ITargetLocal target=targetProcessSpec.api().processes().get(currProcess);
@@ -87,11 +87,11 @@ public class ClientHandler extends Handler{
         }
         if (targetProcessSpec.api().allProcess() || (target!=null && target.api().allLocal())){
             target= TargetsLocalImpl.newInstance().allLocal(true);
-            Log.e("ipc","------------------->目标客户端"+currProcess+"下所有订阅组件，开始处理");
+            LogPrinterUtils.logE("ipc","------------------->目标客户端"+currProcess+"下所有订阅组件，开始处理");
         }
 
         if (target!=null){
-            Log.e("ipc","------------------->目标客户端"+currProcess+"的订阅组件："+target+"，开始处理");
+            LogPrinterUtils.logE("ipc","------------------->目标客户端"+currProcess+"的订阅组件："+target+"，开始处理");
 
             RequesterImpl.newInstance(
                     ComponentRequestImpl.newInstance()

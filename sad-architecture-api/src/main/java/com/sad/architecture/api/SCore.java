@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import android.content.Context;
 import androidx.annotation.NonNull;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.annotation.ComponentResponse;
 import com.sad.architecture.annotation.NameUtils;
@@ -198,7 +198,7 @@ public class SCore {
                 String dynamicComponentClsName= NameUtils.getDynamicComponentClassSimpleName(hostClsName,componentName,"$$");
 
                 try{
-                    Log.e("ipc","------------------->开始注销宿主"+hostClsName+"的事件接收器"+componentName);
+                    LogPrinterUtils.logE("ipc","------------------->开始注销宿主"+hostClsName+"的事件接收器"+componentName);
                     ComponentsStorage.unregisterComponentInstance(componentName+ComponentsStorage.COMPONENT_INSTANCE_MAP_KEY_SEPARATOR+host.hashCode());
 
 
@@ -215,13 +215,13 @@ public class SCore {
     private static void supplementToSend(String componentName){
         //先检测
 
-        Log.e("ipc","------------------->开始检测Local级别"+componentName+"是否存有粘性事件");
+        LogPrinterUtils.logE("ipc","------------------->开始检测Local级别"+componentName+"是否存有粘性事件");
         List<ComponentSticky> stickyList= IPCStorage.obtainLocalStickyRequest(componentName);
         if (stickyList==null){
-            Log.e("ipc","------------------->Local级别"+componentName+"无待发送的粘性事件列表");
+            LogPrinterUtils.logE("ipc","------------------->Local级别"+componentName+"无待发送的粘性事件列表");
             return;
         }
-        Log.e("ipc","------------------->Local级别组件"+componentName+"需要处理粘性事件："+stickyList.size());
+        LogPrinterUtils.logE("ipc","------------------->Local级别组件"+componentName+"需要处理粘性事件："+stickyList.size());
         Iterator<ComponentSticky> iterator=stickyList.iterator();
         while (iterator.hasNext()){
             ComponentSticky sticky=iterator.next();
@@ -241,7 +241,7 @@ public class SCore {
                 }
                 boolean isValid=stickyStrategy.isValid(IPCStickyEnvLevel.COMPONENT,ContextHolder.context.getPackageName(), AppInfoUtil.getCurrAppProccessName(ContextHolder.context),componentName);
                 if (isValid){
-                    Log.e("ipc","------------------->"+componentName+"开始补发粘性事件，requestId="+sticky.getRequest().api().id());
+                    LogPrinterUtils.logE("ipc","------------------->"+componentName+"开始补发粘性事件，requestId="+sticky.getRequest().api().id());
                     //由于回调环境存在不确定性,为防止内存溢出，所以补发的信息不再监听回调
                     try {
                         RequesterImpl.newInstance(
@@ -283,7 +283,7 @@ public class SCore {
 
                 }
                 else {
-                    Log.e("ipc","------------------->Local级别组件"+componentName+"的粘性事件已经失效,来自进程："+request.api().fromProcess());
+                    LogPrinterUtils.logE("ipc","------------------->Local级别组件"+componentName+"的粘性事件已经失效,来自进程："+request.api().fromProcess());
                 }
                 iterator.remove();
 

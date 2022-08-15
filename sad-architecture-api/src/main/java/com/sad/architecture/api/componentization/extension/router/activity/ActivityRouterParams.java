@@ -41,7 +41,7 @@ public class ActivityRouterParams extends AbstractRouterParamsImpl<ActivityRoute
         this.context=context;
     }
 
-    public static IActivityRouterParams newInstance(Context context){
+    public static IActivityRouterParams<ActivityRouterParams> newInstance(Context context){
         return new ActivityRouterParams(context);
     }
 

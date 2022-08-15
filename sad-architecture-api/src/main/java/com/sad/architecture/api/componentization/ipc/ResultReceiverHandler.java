@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponentCallback;
 import com.sad.architecture.api.componentization.IComponentResponse;
@@ -45,9 +45,9 @@ public class ResultReceiverHandler extends Handler {
         switch (opt){
             case IPCConst.POST_COMPONENT_RESPONSE:
                 //发送端收到接收端的回执
-                Log.e("ipc","------------------->接收到了回执");
+                LogPrinterUtils.logE("ipc","------------------->接收到了回执");
                 try {
-                    Log.e("ipc","------------------->测试非序列化数据保存："+testUnSerizabaleData.toString(4));
+                    LogPrinterUtils.logE("ipc","------------------->测试非序列化数据保存："+testUnSerizabaleData.toString(4));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

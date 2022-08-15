@@ -2,7 +2,7 @@ package com.sad.architecture.api.componentization.internal;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.annotation.TheradEnvironment;
 import com.sad.architecture.api.componentization.IComponent;
@@ -51,7 +51,7 @@ public class InvokerImpl implements IInvoker {
         for (IVisitor.Api api:visitorApiGetters
                 ) {
             try {
-                Log.e("ipc","------------------->处理Visitor");
+                LogPrinterUtils.logE("ipc","------------------->处理Visitor");
                 handleVisitor(api);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -62,7 +62,7 @@ public class InvokerImpl implements IInvoker {
     private void handleVisitor(IVisitor.Api visitorApi) throws Exception {
         IRequester.Api requesterApi=visitorApi.requesterApi();
         if (requesterApi==null){
-            Log.e("ipc","------------------->请求Api为空");
+            LogPrinterUtils.logE("ipc","------------------->请求Api为空");
             return;
         }
 
@@ -76,7 +76,7 @@ public class InvokerImpl implements IInvoker {
                 continue;
             }
 
-            Log.e("ipc","------------------->Visitor的App目标："+toApp);
+            LogPrinterUtils.logE("ipc","------------------->Visitor的App目标："+toApp);
 
             handleByApp(toApp,targets,visitorApi);
         }
@@ -96,7 +96,7 @@ public class InvokerImpl implements IInvoker {
     private void remoteTo(String app, ITargets targets,IVisitor.Api visitorApi){
         //如果targets里的map没有内容，即没有写明目标App的具体进程目标，则执行远程没有意义
         if (!targets.api().allProcess() && targets.api().processes().isEmpty()){
-            Log.e("ipc","------------------->目标App:"+app+"没有明确的目标进程");
+            LogPrinterUtils.logE("ipc","------------------->目标App:"+app+"没有明确的目标进程");
             return ;
         }
         IRequester.Api api=visitorApi.requesterApi();
@@ -113,7 +113,7 @@ public class InvokerImpl implements IInvoker {
     private void remoteToCurrApp(ITargets targets,IVisitor.Api visitorApi)throws Exception{
         IRequester.Api api=visitorApi.requesterApi();
         if (targets.api().allProcess()){
-            Log.e("ipc","------------------->Visitor的目标是当前App所有进程");
+            LogPrinterUtils.logE("ipc","------------------->Visitor的目标是当前App所有进程");
             //当前App的所有进程
             //本地
             ITargetLocal targetLocal= TargetsLocalImpl.newInstance().allLocal(true);
@@ -125,7 +125,7 @@ public class InvokerImpl implements IInvoker {
         }
         else{
             Map<String,ITargetLocal> map=targets.api().processes();
-            Log.e("ipc","------------------->Visitor的精准Process目标："+map);
+            LogPrinterUtils.logE("ipc","------------------->Visitor的精准Process目标："+map);
             ITargetLocal localProcess=map.get(AppInfoUtil.getCurrAppProccessName(ContextHolder.context));
             if (localProcess!=null){
                 //本地进程
@@ -133,7 +133,7 @@ public class InvokerImpl implements IInvoker {
             }
             //当前App其他进程
             targets.removeProcess(AppInfoUtil.getCurrAppProccessName(ContextHolder.context));
-            Log.e("ipc","------------------->Visitor的剩余其他进程目标："+targets.api().processes());
+            LogPrinterUtils.logE("ipc","------------------->Visitor的剩余其他进程目标："+targets.api().processes());
             if (!targets.api().processes().isEmpty()){
                 remoteToCurrAppOtherProcess(targets,visitorApi);
             }
@@ -171,7 +171,7 @@ public class InvokerImpl implements IInvoker {
             for (String sn:componentNames
                     ) {
                 List subscribers=visitorApi.require(sn);
-                Log.e("ipc","------------------->组件实例仓库中name="+sn+"的实例组："+subscribers);
+                LogPrinterUtils.logE("ipc","------------------->组件实例仓库中name="+sn+"的实例组："+subscribers);
                 if (subscribers==null || subscribers.isEmpty()){
                     //sn对应的实例组不存在，有可能是因为名为sn的组件尚未注册进动态订阅者集合里，则根据粘性策略做相应选择
                     cacheSticky(request,visitorApi.factory(),sn);
@@ -193,9 +193,9 @@ public class InvokerImpl implements IInvoker {
                 }
             }
             Collections.sort(components);
-            Log.e("ipc","------------------->本地事件批量执行:"+componentNames);
+            LogPrinterUtils.logE("ipc","------------------->本地事件批量执行:"+componentNames);
             for (IComponent componentTest:components){
-                Log.e("ipc","------------------->即将执行的组件:"+componentTest.getClass().getSimpleName());
+                LogPrinterUtils.logE("ipc","------------------->即将执行的组件:"+componentTest.getClass().getSimpleName());
             }
             for (IComponent component:components
                     ) {
@@ -209,12 +209,12 @@ public class InvokerImpl implements IInvoker {
 
                 switch (threadMode){
                     case TheradEnvironment.MAIN:
-                        Log.e("ipc","------------------->主线程执行:"+component.componentInfo().name()+",request="+request);
+                        LogPrinterUtils.logE("ipc","------------------->主线程执行:"+component.componentInfo().name()+",request="+request);
                         callInMainThread(component,request,interceptors,callback);
 
                         break;
                     case TheradEnvironment.BACKGROUND:
-                        Log.e("ipc","------------------->后台主线程执行:"+component.componentInfo().name());
+                        LogPrinterUtils.logE("ipc","------------------->后台主线程执行:"+component.componentInfo().name());
                         if (sourceLooper!=null &&  Looper.getMainLooper()!= sourceLooper && !isAcrossProcess){
                             //如果事件不是跨进程的，且来源的线程不在主线程则处理环境应该和其在同一线程中
                             callInSourceLooper(component,request,interceptors,callback,sourceLooper);
@@ -225,11 +225,11 @@ public class InvokerImpl implements IInvoker {
                         }
                         break;
                     case TheradEnvironment.SINGLE:
-                        Log.e("ipc","------------------->独立线程执行:"+component.componentInfo().name());
+                        LogPrinterUtils.logE("ipc","------------------->独立线程执行:"+component.componentInfo().name());
                         callInSingleThread(component,request,interceptors,callback,executor);
                         break;
                     case TheradEnvironment.SOURCE:
-                        Log.e("ipc","------------------->来源线程执行:"+component.componentInfo().name());
+                        LogPrinterUtils.logE("ipc","------------------->来源线程执行:"+component.componentInfo().name());
                         if (sourceLooper!=null && !isAcrossProcess){
                             callInSourceLooper(component,request,interceptors,callback,sourceLooper);
                         }
@@ -368,11 +368,11 @@ public class InvokerImpl implements IInvoker {
             IComponentCallback callback
     ) throws Exception{
         boolean isAcr=isAcrossProcess(request);
-        Log.e("ipc","------------------->进入拦截器之前:"+appComponent.getClass().getSimpleName());
-        Log.e("ipc","------------------->是否跨进程："+isAcr);
+        LogPrinterUtils.logE("ipc","------------------->进入拦截器之前:"+appComponent.getClass().getSimpleName());
+        LogPrinterUtils.logE("ipc","------------------->是否跨进程："+isAcr);
         IComponentInterceptor internalStartinterceptor=new ComponentInterceptorInternalOriginImpl(callback);
         IComponentInterceptor internalEndInterceptor=new ComponentInterceptorInternalTerminalImpl(appComponent);
-        //Log.e("ipc","------------------->终端拦截器内存地址(外)："+internalEndInterceptor);
+        //LogPrinterUtils.logE("ipc","------------------->终端拦截器内存地址(外)："+internalEndInterceptor);
         Collections.sort(interceptors);
         List<IComponentInterceptor> interceptorsNewInstances=new ArrayList<>();
         interceptorsNewInstances.addAll(interceptors);
@@ -394,7 +394,7 @@ public class InvokerImpl implements IInvoker {
         IComponentInstanceFactory factory=visitor.factory();
         IRequester.IRequesterRemote.IRequesterRemoteApiGetter requestRemoteApiGetter=visitor.requesterApi();
         IComponentRequest.IComponentRequestRemote request=requestRemoteApiGetter.request();
-        Log.e("ipc","------------------->Requester调用IPCBridge发送远程事件："+request);
+        LogPrinterUtils.logE("ipc","------------------->Requester调用IPCBridge发送远程事件："+request);
         //IPCBridge.requestRemote(request,targetRemote,requestMode(),callback);
         Map<String ,TargetsProcess> targetProcessMap=requestRemoteApiGetter.targetRemoteMap();
         Iterator<Map.Entry<String,TargetsProcess>> iterator=targetProcessMap.entrySet().iterator();

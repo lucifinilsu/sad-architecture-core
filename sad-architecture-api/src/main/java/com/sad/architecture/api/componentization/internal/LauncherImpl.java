@@ -1,6 +1,6 @@
 package com.sad.architecture.api.componentization.internal;
 
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponentRequest;
 import com.sad.architecture.api.componentization.IInvoker;
@@ -37,7 +37,7 @@ public class LauncherImpl implements ILauncher<LauncherImpl>,ILauncher.Api {
 
     @Override
     public void submit() {
-        Log.e("ipc","------------------->开始提交请求");
+        LogPrinterUtils.logE("ipc","------------------->开始提交请求");
         this.invoker.invokeVisitors(visitors);
     }
 

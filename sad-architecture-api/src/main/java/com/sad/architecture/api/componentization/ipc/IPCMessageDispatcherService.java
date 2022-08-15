@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
 import androidx.annotation.Nullable;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 /**
  * Created by Administrator on 2019/4/3 0003.
@@ -25,7 +25,7 @@ public class IPCMessageDispatcherService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e("ipc","---------------->服务端被调用");
+        LogPrinterUtils.logE("ipc","---------------->服务端被调用");
         return START_NOT_STICKY;
     }
 

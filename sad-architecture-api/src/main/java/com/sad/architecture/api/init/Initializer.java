@@ -3,7 +3,7 @@ package com.sad.architecture.api.init;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.annotation.Constant;
 import com.sad.architecture.api.componentization.internal.ComponentsStorage;
@@ -37,7 +37,12 @@ public class Initializer {
     protected ClassScannerClient classScannerClient;
     protected boolean useRegisterCache=false;
     protected String targetPackage= Constant.PACKAGE_SAD_ARCHITECTURE_API_COMPONENTIZATION_COMPONENT_REGISTER;
+    protected static boolean openLog=false;
 
+    public Initializer openLog(boolean openLog){
+        Initializer.openLog=openLog;
+        return this;
+    }
 
     public Initializer classScannerClient(ClassScannerClient classScannerClient){
         this.classScannerClient=classScannerClient;
@@ -74,14 +79,14 @@ public class Initializer {
     private void doScanERM(String path){
         try {
             String s=readStringFrom(ContextHolder.context,path);
-            //Log.e("ipc","ERM扫描注册表路径:"+path);
+            //LogPrinterUtils.logE("ipc","ERM扫描注册表路径:"+path);
             if (!TextUtils.isEmpty(s)){
                 JSONObject jsonObject=new JSONObject(s);
                 JSONArray names=jsonObject.names();
                 for (int i = 0; i < names.length(); i++) {
                     String name=names.getString(i);
                     String value=jsonObject.optString(name);
-                    Log.e("ipc","ERM扫描"+name+":"+value);
+                    LogPrinterUtils.logE("ipc","ERM扫描"+name+":"+value);
                     Class c=Class.forName(value);
                     ComponentsStorage.registerComponentClass(name,c);
                 }
@@ -111,7 +116,7 @@ public class Initializer {
             return result;
         }catch (Exception e){
             //e.printStackTrace();
-            Log.e("sad",">>>>"+fn+" is not file");
+            LogPrinterUtils.logE("sad",">>>>"+fn+" is not file");
             return null;
         }
     }

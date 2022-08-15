@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.Parcelable;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponentCallback;
 import com.sad.architecture.api.componentization.IComponentRequest;
@@ -77,7 +77,7 @@ public class InternalRelayComponentCallback implements IComponentCallback{
                 f.setAccessible(true);
                 Object v=f.get(o);
                 if (!(v instanceof Serializable) && !(v instanceof Parcelable) && !isPrimitive(v)){
-                    Log.e("ipc","------------------->存在非序列化对象，类型："+f.getType()+",值："+v+",名称："+f.getName());
+                    LogPrinterUtils.logE("ipc","------------------->存在非序列化对象，类型："+f.getType()+",值："+v+",名称："+f.getName());
                     f.set(o, null);
                 }
             }catch (Exception e){

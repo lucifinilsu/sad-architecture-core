@@ -1,7 +1,7 @@
 package com.sad.architecture.api.componentization.internal;
 
 
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponent;
 import com.sad.architecture.api.componentization.IComponentInterceptor;
@@ -22,19 +22,19 @@ public class ComponentInterceptorInternalTerminalImpl implements IComponentInter
     private IComponent appComponent;
     public ComponentInterceptorInternalTerminalImpl(IComponent appComponent){
         this.appComponent=appComponent;
-        Log.e("ipc","------------------->终端拦截器初始化时组件:"+appComponent.getClass().getSimpleName()+",终端拦截器内存地址(外)："+this);
+        LogPrinterUtils.logE("ipc","------------------->终端拦截器初始化时组件:"+appComponent.getClass().getSimpleName()+",终端拦截器内存地址(外)："+this);
     }
 
     @Override
     public IComponentResponse OnRequestIntercepted(IComponentRequestInterceptorChain chain, INotifier notifier) throws Exception {
-        //Log.e("ipc","------------------->终端拦截器内存地址(内)："+this);
+        //LogPrinterUtils.logE("ipc","------------------->终端拦截器内存地址(内)："+this);
         IResult result= ResultImpl.asUnworked();
         IComponentRequest request=chain.request();
         if (appComponent==null){
             result=ResultImpl.asException().exceptionString("AppComponent is null !!!");
         }
         else {
-            Log.e("ipc","------------------->组件执行前夕:"+appComponent.getClass().getSimpleName()+"终端拦截器内存地址(内):"+this);
+            LogPrinterUtils.logE("ipc","------------------->组件执行前夕:"+appComponent.getClass().getSimpleName()+"终端拦截器内存地址(内):"+this);
             result= appComponent.onComponentResponse(request,notifier);
 
         }

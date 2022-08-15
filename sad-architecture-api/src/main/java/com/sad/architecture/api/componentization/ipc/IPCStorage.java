@@ -2,7 +2,7 @@ package com.sad.architecture.api.componentization.ipc;
 
 import android.os.Message;
 import android.os.Messenger;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponentRequest;
 
@@ -27,7 +27,7 @@ public class IPCStorage {
     protected final static ConcurrentHashMap<String,Messenger> SERVER_MESSENGERS = new ConcurrentHashMap<>();
 
     protected static void cacheAppStickyMessage(String app, Message message){
-        Log.e("ipc","------------------->开始存储粘性事件，目标App："+app);
+        LogPrinterUtils.logE("ipc","------------------->开始存储粘性事件，目标App："+app);
         cacheStickyMessage(REMOTE_APP_STICKY_MESSAGES,app,message);
     }
 
@@ -36,7 +36,7 @@ public class IPCStorage {
     }
 
     protected static void cacheProcessStickyMessage(String process, Message message){
-        Log.e("ipc","------------------->开始存储粘性事件，目标Process："+process);
+        LogPrinterUtils.logE("ipc","------------------->开始存储粘性事件，目标Process："+process);
         cacheStickyMessage(IPCStorage.REMOTE_PROCESS_STICKY_MESSAGES,process,message);
     }
 
@@ -45,7 +45,7 @@ public class IPCStorage {
     }
 
     protected static void cacheLocalStickyRequest(String componentName, ComponentSticky sticky){
-        Log.e("ipc","------------------->开始存储粘性事件，目标componentName："+componentName);
+        LogPrinterUtils.logE("ipc","------------------->开始存储粘性事件，目标componentName："+componentName);
         List<ComponentSticky> requests=LOCAL_STICKY_REQUESTS.get(componentName);
         if (requests==null){
             requests=new ArrayList<>();

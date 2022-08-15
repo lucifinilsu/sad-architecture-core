@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.annotation.AppComponent;
 import com.sad.architecture.api.componentization.IComponent;
@@ -41,25 +41,25 @@ public abstract class AbstractAndroidActivityRouterProxyComponent implements ICo
     public IResult onComponentResponse(IComponentRequest request, INotifier notifier)  {
 
         try{
-            Log.e("ipc","------------------->Activity跳转开始动作");
+            LogPrinterUtils.logE("ipc","------------------->Activity跳转开始动作");
             Intent intent=new Intent();
             if (request==null){
                 throw new Exception("The ActivityRouter's action request is null.");
             }
 
             if (!(request.api().body() instanceof IActivityRouterParams)){
-                Log.e("ipc","------------------->body="+request.api().body());
+                LogPrinterUtils.logE("ipc","------------------->body="+request.api().body());
                 throw new Exception("The ActivityRouter's request's body should be implement from IActivityRouterParams.");
             }
 
             IActivityRouterParams params=request.api().body();
             if (params==null){
-                Log.e("ipc","------------------->Activity路由参数：空空");
+                LogPrinterUtils.logE("ipc","------------------->Activity路由参数：空空");
                 throw new Exception("The ActivityRouter's request's body is null.");
             }
             boolean isRemote= AppInfoUtil.getCurrAppProccessName(ContextHolder.context).equals(request.api().fromProcess());
             //debug
-            Log.e("ipc","------------------->Activity路由参数："+params.outputContent());
+            LogPrinterUtils.logE("ipc","------------------->Activity路由参数："+params.outputContent());
 
             Context context=params.routerParamsApiGetter().context();
             if (context==null){

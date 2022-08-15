@@ -2,7 +2,7 @@ package com.sad.architecture.core.demo2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 import android.widget.TextView;
 
 import com.sad.architecture.annotation.ActivityRoute;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             notifier.notifyCallCompeleted(ResultImpl.<String>asDone().data("App2调用成功"));
         }
         else {
-            Log.e("ipc","------------------->textView还未初始化");
+            LogPrinterUtils.logE("ipc","------------------->textView还未初始化");
         }
     }
     @ComponentResponse(componentName = "App2Test2")

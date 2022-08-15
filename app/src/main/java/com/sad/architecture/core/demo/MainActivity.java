@@ -4,7 +4,7 @@ import android.app.Fragment;
 import android.net.Uri;
 
 import android.os.Bundle;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +85,7 @@ public class MainActivity extends BaseTestActivity {
                             , new IComponentCallback() {
                                 @Override
                                 public void onComponentInvokeCompleted(IComponentResponse response) {
-                                    Log.e("ipc","------------------->IPC级回调生效,来自："+response.sourceName());
+                                    LogPrinterUtils.logE("ipc","------------------->IPC级回调生效,来自："+response.sourceName());
                                     ResultDone<String> reuslt=response.body();
                                     tv.setText("IPC级回调，携带的数据："+reuslt.data());
                                 }
@@ -117,6 +117,7 @@ public class MainActivity extends BaseTestActivity {
                 .addflag(16)
                 .addflag(8)
                 .uri(Uri.parse("https://www.baidu.com"))
+                .activityResultLauncher(null)
                 .createRequest(999);
 
         IComponentRequest request2 = ComponentRequestImpl.newInstance().body("哈哈哈哈哈")
@@ -131,7 +132,7 @@ public class MainActivity extends BaseTestActivity {
                 .callback(new IComponentCallback() {
                     @Override
                     public void onComponentInvokeCompleted(IComponentResponse response) {
-                        Log.e("ipc","------------------->IPC级回调生效,来自："+response.request().api().id());
+                        LogPrinterUtils.logE("ipc","------------------->IPC级回调生效,来自："+response.request().api().id());
                         tv.setText("IPC级回调生效,来自："+response.request().api().id());
                     }
                 })
@@ -142,7 +143,7 @@ public class MainActivity extends BaseTestActivity {
                 .callback(new IComponentCallback() {
                     @Override
                     public void onComponentInvokeCompleted(IComponentResponse response) {
-                        Log.e("ipc","------------------->IPC级回调生效,Post请求，来自："+response.request().api().id());
+                        LogPrinterUtils.logE("ipc","------------------->IPC级回调生效,Post请求，来自："+response.request().api().id());
                     }
                 })
                 .post()

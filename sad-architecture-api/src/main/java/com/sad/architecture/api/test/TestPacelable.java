@@ -3,7 +3,7 @@ package com.sad.architecture.api.test;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 /**
  * Created by Administrator on 2019/5/13 0013.
@@ -65,13 +65,13 @@ public class TestPacelable implements Parcelable {
     }
 
     public void readFromParcel(Parcel in){
-        Log.e("ipc","------------------->请求开始被反序列化");
+        LogPrinterUtils.logE("ipc","------------------->请求开始被反序列化");
         setS1(in.readString());
-        Log.e("ipc","------------------->反序列化:s1="+s1);
+        LogPrinterUtils.logE("ipc","------------------->反序列化:s1="+s1);
         setS2(in.readString());
-        Log.e("ipc","------------------->反序列化:s2="+s2);
+        LogPrinterUtils.logE("ipc","------------------->反序列化:s2="+s2);
         //setL(in.readLong());
-        //Log.e("ipc","------------------->反序列化:l="+l);
+        //LogPrinterUtils.logE("ipc","------------------->反序列化:l="+l);
     }
 
     public static final Parcelable.Creator<TestPacelable> CREATOR = new Parcelable.Creator<TestPacelable>(){

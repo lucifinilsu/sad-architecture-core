@@ -1,7 +1,7 @@
 package com.sad.architecture.api.componentization.internal;
 
 import android.text.TextUtils;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponent;
 import com.sad.basic.utils.assistant.LogUtils;
@@ -37,16 +37,16 @@ public class ComponentsStorage {
     public static List<IComponent> getComponentInstance(String name){
         List<IComponent> list=new ArrayList<>();
         Iterator<Map.Entry<String,List<IComponent>>> iterator=COMPONENTS_INSTANCE.entrySet().iterator();
-        Log.e("ipc","------------------->开始遍历组件名");
+        LogPrinterUtils.logE("ipc","------------------->开始遍历组件名");
         while (iterator.hasNext()){
             Map.Entry<String,List<IComponent>> entry=iterator.next();
             String k=entry.getKey();
-            Log.e("ipc","------------------->遍历动态组件"+k);
+            LogPrinterUtils.logE("ipc","------------------->遍历动态组件"+k);
             String[] n=k.split(ComponentsStorage.COMPONENT_INSTANCE_MAP_KEY_SEPARATOR);
             if (n!=null && n.length>1){
                 String ns=n[0];
                 if (ns.equals(name)){
-                    Log.e("ipc","------------------->动态组件"+k+"符合需求，添加到结果集");
+                    LogPrinterUtils.logE("ipc","------------------->动态组件"+k+"符合需求，添加到结果集");
                     List<IComponent> components=entry.getValue();
                     list.addAll(components);
                 }
@@ -60,7 +60,7 @@ public class ComponentsStorage {
         Class appComponentClass= COMPONENTS.get(key);
 
         if (null==appComponentClass){
-            Log.e("ipc","所有组件--->"+COMPONENTS);
+            LogPrinterUtils.logE("ipc","所有组件--->"+COMPONENTS);
             throw new Exception("The annotation corresponding to the subscriberName '"+key+"' has the class of AppComponent that does not exist or is not registered");
         }
         return appComponentClass;

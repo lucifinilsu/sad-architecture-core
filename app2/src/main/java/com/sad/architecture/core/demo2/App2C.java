@@ -1,6 +1,6 @@
 package com.sad.architecture.core.demo2;
 
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.annotation.AppComponent;
 import com.sad.architecture.api.componentization.IComponent;
@@ -17,7 +17,7 @@ public class App2C implements IComponent {
 
     @Override
     public IResult onComponentResponse(IComponentRequest request, INotifier notifier) {
-        Log.e("ipc","------------------->组件xxx正常运行,接收到请求："+request.api().body());
+        LogPrinterUtils.logE("ipc","------------------->组件xxx正常运行,接收到请求："+request.api().body());
         notifier.notifyCallCompeleted(ResultImpl.asDone());
         return ResultImpl.asDone();
     }

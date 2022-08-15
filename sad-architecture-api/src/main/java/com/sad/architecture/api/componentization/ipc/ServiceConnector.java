@@ -7,7 +7,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.Messenger;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.init.ContextHolder;
 
@@ -23,12 +23,12 @@ public class ServiceConnector {
         Intent intent;
         boolean isBindMainProcess= TextUtils.isEmpty(app) || ContextHolder.context.getPackageName().equals(app);
         if (isBindMainProcess) {
-            Log.e("ipc","------------------->连接当前App服务端："+app);
+            LogPrinterUtils.logE("ipc","------------------->连接当前App服务端："+app);
             intent = new Intent(ContextHolder.context,IPCMessageDispatcherService.class);
         }
         else {
             //跨App调起事件分发服务
-            Log.e("ipc","------------------->连接其他App服务端："+app);
+            LogPrinterUtils.logE("ipc","------------------->连接其他App服务端："+app);
             intent = new Intent(app + ".ipc");
             //intent.setComponent(new ComponentName(app,"com.sad.core.component.api.ipc.EventDispatcherServer"));
             intent.setPackage(app);

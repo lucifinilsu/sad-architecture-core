@@ -4,11 +4,26 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/sad-architecture-core.iml" filepath="$PROJECT_DIR$/sad-architecture-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/JavaDemo/sad-architecture-core.JavaDemo.iml" filepath="$PROJECT_DIR$/.idea/modules/JavaDemo/sad-architecture-core.JavaDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JavaDemo/sad-architecture-core.JavaDemo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/JavaDemo/sad-architecture-core.JavaDemo.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JavaDemo/sad-architecture-core.JavaDemo.test.iml" filepath="$PROJECT_DIR$/.idea/modules/JavaDemo/sad-architecture-core.JavaDemo.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/sad-architecture-core.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.iml" filepath="$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app2/sad-architecture-core.app2.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-annotation/sad-architecture-core.sad-architecture-annotation.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-annotation/sad-architecture-core.sad-architecture-annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-annotation/sad-architecture-core.sad-architecture-annotation.main.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-annotation/sad-architecture-core.sad-architecture-annotation.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-annotation/sad-architecture-core.sad-architecture-annotation.test.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-annotation/sad-architecture-core.sad-architecture-annotation.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-api/sad-architecture-core.sad-architecture-api.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-compiler/sad-architecture-core.sad-architecture-compiler.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-compiler/sad-architecture-core.sad-architecture-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-compiler/sad-architecture-core.sad-architecture-compiler.main.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-compiler/sad-architecture-core.sad-architecture-compiler.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sad-architecture-compiler/sad-architecture-core.sad-architecture-compiler.test.iml" filepath="$PROJECT_DIR$/.idea/modules/sad-architecture-compiler/sad-architecture-core.sad-architecture-compiler.test.iml" />
     </modules>
   </component>
 </project>

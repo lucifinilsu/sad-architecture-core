@@ -7,7 +7,7 @@ import android.os.Messenger;
 import android.os.Parcelable;
 import android.os.RemoteException;
 import android.text.TextUtils;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 import com.sad.architecture.api.componentization.IComponentRequest;
 import com.sad.architecture.api.componentization.IParcelable;
@@ -77,7 +77,7 @@ public  class ServerHandler extends Handler{
         }
         String app=bundle.getString(IPCConst.BUNDLE_KEY_MESSENGER_APPNAME);
         String process=bundle.getString(IPCConst.BUNDLE_KEY_MESSENGER_PROCESSNAME);
-        Log.e("ipc","------------------->服务端开始存储客户端信使：app="+app+",process="+process);
+        LogPrinterUtils.logE("ipc","------------------->服务端开始存储客户端信使：app="+app+",process="+process);
         registerMessenger(process,clientMessenger);
     }
 
@@ -86,7 +86,7 @@ public  class ServerHandler extends Handler{
             return;
         }
         clientMessengerMap.put(process,clientMessenger);
-        Log.e("ipc","------------------->服务端存储客户端信使完成，当前：clientMessengerMap="+clientMessengerMap);
+        LogPrinterUtils.logE("ipc","------------------->服务端存储客户端信使完成，当前：clientMessengerMap="+clientMessengerMap);
         //注册完成以后，检查粘性事件表里是否有要补发的事件
         supplementToSend(process,clientMessenger);
 
@@ -162,20 +162,20 @@ public  class ServerHandler extends Handler{
         if (bundle==null){
             return;
         }
-        Log.e("ipc","------------------->开始分发事件");
+        LogPrinterUtils.logE("ipc","------------------->开始分发事件");
         bundle.setClassLoader(getClass().getClassLoader());//IComponentRequest.class.getClassLoader()
         Parcelable s_request=bundle.getParcelable(IPCConst.BUNDLE_KEY_COMPONENT_REQUEST);
         Parcelable s_target=bundle.getParcelable(IPCConst.BUNDLE_KEY_COMPONENT_TARGETS);
         //Serializable s_factory=bundle.getSerializable(IPCConst.BUNDLE_KEY_COMPONENT_FACTORY);
         //int requestMode=bundle.getInt(IPCConst.BUNDLE_KEY_COMPONENT_REQUEST_MODE,IComponentRequest.CALLER);
         if (s_request==null || s_target==null){
-            Log.e("ipc","------------------->事件或者目标为空");
+            LogPrinterUtils.logE("ipc","------------------->事件或者目标为空");
             return;
         }
 
         IComponentRequest request= (IComponentRequest) s_request;
 
-        Log.e("ipc","------------------->服务端接收到的请求："+request.outputContent());
+        LogPrinterUtils.logE("ipc","------------------->服务端接收到的请求："+request.outputContent());
 
         ITargets targetProcess= (ITargets) s_target;
         String app=ContextHolder.context.getPackageName();
@@ -186,7 +186,7 @@ public  class ServerHandler extends Handler{
             Map<String,ITargetLocal> remoteProcessMap=targetProcess.api().processes();
             //需要注意的是，由于targetProcess是在发送前经过对目标群重新整合过的，所以可能会出现含有发送者本地进程的目标，为避免重复，所以要先剔除他们
             remoteProcessMap.remove(request.api().fromProcess());
-            Log.e("ipc","------------------->事件精准目标："+remoteProcessMap);
+            LogPrinterUtils.logE("ipc","------------------->事件精准目标："+remoteProcessMap);
             Iterator<Map.Entry<String,ITargetLocal>> iterator_process=remoteProcessMap.entrySet().iterator();
             while (iterator_process.hasNext()){
                 Map.Entry<String,ITargetLocal> subscriberSpecEntry=iterator_process.next();
@@ -199,7 +199,7 @@ public  class ServerHandler extends Handler{
                     //没有找到process相应的信使，根据粘性策略进行存储
                     IStickyStrategy sticky=request.api().stickyStrategy();
                     if (sticky!=null){
-                        Log.e("ipc","------------------->开始存储粘性事件，目标进程："+process);
+                        LogPrinterUtils.logE("ipc","------------------->开始存储粘性事件，目标进程："+process);
                         sticky.put(IPCStickyEnvLevel.PROCESS,ContextHolder.context.getPackageName(),process,"",messageToBeSent);
                     }
                     continue;
@@ -207,11 +207,11 @@ public  class ServerHandler extends Handler{
                 Messenger clientMessenger=clientMessengerMap.get(process);
 
                 try {
-                    Log.e("ipc","------------------->找到了相应信使，下发目标进程："+process);
+                    LogPrinterUtils.logE("ipc","------------------->找到了相应信使，下发目标进程："+process);
                     clientMessenger.send(messageToBeSent);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e("ipc","------------------->目标进程："+process+"的信使可能已经废弃");
+                    LogPrinterUtils.logE("ipc","------------------->目标进程："+process+"的信使可能已经废弃");
                     //android.os.DeadObjectException错误，有可能Messenger已经被废弃了，例如所在进程关闭了但没有及时注销信使，所以手动注销，然后考虑粘性
                     unregisterMessenger(process);
                     IStickyStrategy sticky=request.api().stickyStrategy();
@@ -227,7 +227,7 @@ public  class ServerHandler extends Handler{
 
 
     private void dispatchEventToAllProcess(Message msg){
-        Log.e("ipc","------------------->分发事件给App="+ContextHolder.context.getPackageName()+"下所有进程："+clientMessengerMap);
+        LogPrinterUtils.logE("ipc","------------------->分发事件给App="+ContextHolder.context.getPackageName()+"下所有进程："+clientMessengerMap);
         Iterator<Map.Entry<String,Messenger>> iterator=clientMessengerMap.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry<String, Messenger> entry=iterator.next();

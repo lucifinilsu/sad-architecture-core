@@ -3,7 +3,7 @@ package com.sad.architecture.api.componentization.ipc;
 import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+import com.sad.architecture.api.init.LogPrinterUtils;
 
 
 
@@ -46,7 +46,7 @@ public class StickyStrategyWithDeadlineImpl implements IStickyStrategy {
                     IPCStorage.cacheAppStickyMessage(app, (Message) o);
                 }
                 else {
-                    Log.e("ipc"," sticky Onbject's type must be [Message] not ["+o.getClass().getCanonicalName()+"] for app："+app);
+                    LogPrinterUtils.logE("ipc"," sticky Onbject's type must be [Message] not ["+o.getClass().getCanonicalName()+"] for app："+app);
                 }
                 break;
 
@@ -56,7 +56,7 @@ public class StickyStrategyWithDeadlineImpl implements IStickyStrategy {
                     IPCStorage.cacheProcessStickyMessage(process, (Message) o);
                 }
                 else {
-                    Log.e("ipc"," sticky Onbject's type must be [Message] not ["+o.getClass().getCanonicalName()+"] for process："+process);
+                    LogPrinterUtils.logE("ipc"," sticky Onbject's type must be [Message] not ["+o.getClass().getCanonicalName()+"] for process："+process);
                 }
                 break;
             case COMPONENT:
@@ -65,7 +65,7 @@ public class StickyStrategyWithDeadlineImpl implements IStickyStrategy {
                     IPCStorage.cacheLocalStickyRequest(componentName, (ComponentSticky) o);
                 }
                 else {
-                    Log.e("ipc"," sticky Onbject's type must be [IComponentRequest] not ["+o.getClass().getCanonicalName()+"] for loacl："+componentName);
+                    LogPrinterUtils.logE("ipc"," sticky Onbject's type must be [IComponentRequest] not ["+o.getClass().getCanonicalName()+"] for loacl："+componentName);
                 }
                 break;
             default:
@@ -90,8 +90,8 @@ public class StickyStrategyWithDeadlineImpl implements IStickyStrategy {
                 break;
             case COMPONENT:
                 long curr=System.currentTimeMillis();
-                Log.e("ipc","------------------->当前时间："+curr);
-                Log.e("ipc","------------------->死线："+deadLine_local);
+                LogPrinterUtils.logE("ipc","------------------->当前时间："+curr);
+                LogPrinterUtils.logE("ipc","------------------->死线："+deadLine_local);
                 if (System.currentTimeMillis()>deadLine_local){
                     isStickyValid=false;
                 }
