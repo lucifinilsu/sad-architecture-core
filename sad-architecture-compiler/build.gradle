@@ -40,8 +40,8 @@ dependencies {
     api 'com.squareup:javapoet:latest.release'
     api 'commons-io:commons-io:2.8.0'
     api 'com.google.code.gson:gson:latest.release'
-    //api project(':sad-architecture-annotation')
-    api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.2'
+    api project(':sad-architecture-annotation')
+    //api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.2'
 
 }
 //apply from: rootProject.file('uploadbintrayJceneterScript_Compiler.gradle')
