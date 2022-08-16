@@ -1,8 +1,8 @@
 plugins{
     id 'java-library'
-    id 'maven-publish'
+    //id 'maven-publish'
 }
-group='com.sad.architecture.annotation'
+//group='com.sad.architecture.annotation'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'org.apache.commons:commons-lang3:latest.release'
@@ -14,30 +14,30 @@ dependencies {
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                // Applies the component for the release build variant.
-                //from components.release
-
-
-                // You can then customize attributes of the publication as shown below.
-                groupId = 'com.sad.architecture.annotation'
-                artifactId = 'sad-architecture-annotation'
-                version = '1.0.2'
-            }
-            // Creates a Maven publication called “debug”.
-            /*debug(MavenPublication) {
-                // Applies the component for the debug build variant.
-                from components.debug
-
-                groupId = 'com.example.MyLibrary'
-                artifactId = 'final-debug'
-                version = '1.0'
-            }*/
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            // Creates a Maven publication called "release".
+//            release(MavenPublication) {
+//                // Applies the component for the release build variant.
+//                //from components.release
+//
+//
+//                // You can then customize attributes of the publication as shown below.
+//                groupId = 'com.sad.architecture.annotation'
+//                artifactId = 'sad-architecture-annotation'
+//                version = '1.0.2'
+//            }
+//            // Creates a Maven publication called “debug”.
+//            /*debug(MavenPublication) {
+//                // Applies the component for the debug build variant.
+//                from components.debug
+//
+//                groupId = 'com.example.MyLibrary'
+//                artifactId = 'final-debug'
+//                version = '1.0'
+//            }*/
+//        }
+//    }
+//}
 //apply from: rootProject.file('uploadbintrayJceneterScript_Annotation.gradle')
