@@ -54,6 +54,21 @@ configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 }
 apply from: rootProject.file('uploadbintrayJceneterScript_Api.gradle')
+
+dependencies {
+    /*implementation gradleApi()
+    implementation localGroovy()*/
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.github.lucifinilsu:sad-datastore:0.2.5-RC5'
+    api 'androidx.annotation:annotation:'+ rootProject.ext.supportVersion
+    //api 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
+    api project(':sad-architecture-annotation')
+    //api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.2'
+    api 'androidx.lifecycle:lifecycle-common-java8:latest.release'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:latest.release'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:latest.release'
+}
 afterEvaluate {
     publishing {
         publications {
@@ -78,18 +93,4 @@ afterEvaluate {
             }*/
         }
     }
-}
-dependencies {
-    /*implementation gradleApi()
-    implementation localGroovy()*/
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.github.lucifinilsu:sad-datastore:0.2.5-RC5'
-    api 'androidx.annotation:annotation:'+ rootProject.ext.supportVersion
-    //api 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
-    api project(':sad-architecture-annotation')
-    //api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.2'
-    api 'androidx.lifecycle:lifecycle-common-java8:latest.release'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:latest.release'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:latest.release'
 }
