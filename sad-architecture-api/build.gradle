@@ -1,7 +1,12 @@
-apply plugin: 'com.android.library'
+//apply plugin: 'com.android.library'
 //apply plugin: 'groovy'
 //apply plugin: 'maven'
 //apply plugin: 'com.github.dcendents.android-maven'
+plugins{
+    id 'com.android.library'
+    id 'maven-publish'
+}
+group='com.sad.architecture.api'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -9,7 +14,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 3
-        versionName "1.1.2"
+        versionName "1.3.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -49,16 +54,40 @@ configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 }
 apply from: rootProject.file('uploadbintrayJceneterScript_Api.gradle')
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
 
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.sad.architecture.api'
+                artifactId = 'sad-architecture-api'
+                version = '1.3.1'
+            }
+            // Creates a Maven publication called “debug”.
+            /*debug(MavenPublication) {
+                // Applies the component for the debug build variant.
+                from components.debug
+
+                groupId = 'com.example.MyLibrary'
+                artifactId = 'final-debug'
+                version = '1.0'
+            }*/
+        }
+    }
+}
 dependencies {
     /*implementation gradleApi()
     implementation localGroovy()*/
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.sad.assistant:sad-datastore:latest.release'
+    api 'com.github.lucifinilsu:sad-datastore:0.2.5-RC5'
     api 'androidx.annotation:annotation:'+ rootProject.ext.supportVersion
     //api 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
-    //compile project(':sad-architecture-annotation')
-    api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.2'
+    api project(':sad-architecture-annotation')
+    //api 'com.sad.architecture.annotation:sad-architecture-annotation:1.0.2'
     api 'androidx.lifecycle:lifecycle-common-java8:latest.release'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:latest.release'

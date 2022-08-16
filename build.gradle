@@ -20,6 +20,7 @@ buildscript {
     }
 }
 //apply from: 'https://raw.githubusercontent.com/lucifinilsu/SmartAndroidDeveloper/master/sad-project-common.gradle'
+apply from: rootProject.file('config.gradle')
 project.ext {
     //basicApplicationId="com.sad.architecture.core.demo"
     versionCode = 10
