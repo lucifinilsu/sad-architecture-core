@@ -3,8 +3,7 @@
     <application>
         <service
             android:name="com.sad.architecture.api.componentization.ipc.IPCMessageDispatcherService"
-            android:enabled="true"
-            android:exported="true">
+            android:enabled="true">
             <intent-filter>
                 <action android:name="${applicationId}.ipc"/>
             </intent-filter>
