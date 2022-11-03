@@ -13,9 +13,9 @@ dependencies {
     annotationProcessor 'com.google.auto.service:auto-service:latest.release'
     compileOnly'com.google.auto.service:auto-service:latest.release'
 
-    api 'com.squareup:javapoet:latest.release'
+    api 'com.squareup:javapoet:1.13.0'
     api 'commons-io:commons-io:2.8.0'
-    api 'com.google.code.gson:gson:latest.release'
+    api 'com.google.code.gson:gson:2.10'
 
     //api files('libs/sad-architecture-annotation.jar')
     api project(':sad-architecture-annotation')
